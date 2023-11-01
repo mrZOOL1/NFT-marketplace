@@ -59,6 +59,11 @@ const page = () => {
                 </div>
 
                 <div className='gap-1'>
+                  <Label htmlFor="owner">owner</Label>
+                  <Input id="owner" name='owner' autoComplete="off"/>
+                </div>
+
+                <div className='gap-1'>
                   <Label htmlFor="title">Title</Label>
                   <Input id="title" name='title' autoComplete="off"/>
                 </div>

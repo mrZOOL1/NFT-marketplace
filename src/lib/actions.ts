@@ -5,12 +5,13 @@ import { nanoid } from "nanoid";
 
 export async function CreateCardAction(FormData: FormData) {
     const id = nanoid();
-    const owner = FormData.get('userid') as string;
+    const userid = FormData.get('userid') as string;
+    const owner = FormData.get('owner') as string;
     const title = FormData.get('title') as string;
     const price = FormData.get('price') as string;
     const image = FormData.get('image') as string;
-    if (owner !== '' && title !== '' && price !== '' && image !== '') {
-        await CreateCard(id, owner, title, price, image);
+    if (userid !== '' && owner !== '' && title !== '' && price !== '' && image !== '') {
+        await CreateCard(id, userid, owner, title, price, image);
     }
 }
 

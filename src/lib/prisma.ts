@@ -90,11 +90,12 @@ export const FilterCardsByUserIdAndTitle = async function (userid: string, title
     }
 }
 
-export const CreateCard = async function (id: string, userid: string, title: string, price: string, image: string) {
+export const CreateCard = async function (id: string, userid: string, owner: string, title: string, price: string, image: string) {
     const card = await prisma.cards.create({
         data: {
             id,
             userid,
+            owner,
             title,
             price,
             image
