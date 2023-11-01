@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Cards {
+  id     String @id
+  userid String
+  owner  String
+  title  String
+  price  String
+  image  String
+}
+
+model Users {
+  id       String @id
+  email    String
+  password String
+  name     String
+  image    String
+}
+
+model Carts {
+  userid String @id
+  item   String
+}
