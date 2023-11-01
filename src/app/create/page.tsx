@@ -18,7 +18,7 @@ const page = () => {
 
   const [Correct, SetCorrect] = useState(true);
 
-  function showlabel() {
+  const showlabel = function () {
 
     const userid = document.querySelector('input[name="userid"]') as HTMLInputElement;
     const title = document.querySelector('input[name="title"]') as HTMLInputElement;

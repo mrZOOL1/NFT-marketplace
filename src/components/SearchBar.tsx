@@ -12,7 +12,7 @@ const SearchBar = () => {
   const params = new URLSearchParams(searchParams);
   const pathname = usePathname();
 
-  function submitHandler () {
+  const submitHandler = function() {
     const search = document.querySelector('input[name="search"]') as HTMLInputElement;
     const searchvalue = search.value.toString();
     params.set('title', searchvalue);
