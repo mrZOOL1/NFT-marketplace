@@ -19,14 +19,12 @@ const Nav = async () => {
   const cartnum = await CountCartItems('user2');
 
   return (
-    <nav className='sticky top-0 z-10 flex items-center w-full justify-between p-4 bg-background'>
+    <nav className='sticky top-0 z-10 flex items-center w-full justify-between p-4'>
 
       <div className='flex items-center gap-2'>
         <Link href='/'>
           <Image src='/images/icon.png' alt='logo' width={40} height={40}/>
         </Link>
-
-        <Separator orientation="vertical" className='h-10'/>
 
         <Link href='/create' className='text-lg font-semibold hover:text-[#b92ed1] transition-all'>Create</Link>
       </div>
@@ -41,8 +39,8 @@ const Nav = async () => {
         </Link>
 
         <Link href='/profile'>
-          <Button variant="secondary">
-            <UserCircle2/>
+          <Button variant="secondary" size='icon'>
+            <UserCircle2 width={24} height={24}/>
           </Button>
         </Link>
 
@@ -53,8 +51,8 @@ const Nav = async () => {
             {cartnum}
           </div>
 
-          <Button variant="secondary">
-            <ShoppingCart/>
+          <Button variant="secondary" size='icon'>
+            <ShoppingCart width={24} height={24}/>
           </Button>
 
         </Link>
@@ -64,7 +62,7 @@ const Nav = async () => {
       <div className='inline onecard:hidden'>
         <DropdownMenu>
 
-          <button><DropdownMenuTrigger><Menu/></DropdownMenuTrigger></button>
+          <DropdownMenuTrigger><Menu/></DropdownMenuTrigger>
 
           <DropdownMenuContent>
 

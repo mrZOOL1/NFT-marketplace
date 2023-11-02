@@ -24,7 +24,7 @@ export default function RootLayout({
         <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>"/>
       </head>
 
-      <body className={inter.className}>
+      <body className={`${inter.className} gradient`} >
         <ThemeProvider
         attribute="class"
         defaultTheme="system"

@@ -40,7 +40,7 @@ const page = () => {
   }
 
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center justify-center h-[calc(100vh-5rem)]'>
       <Card className="w-[min(350px,90%)]">
 
         <CardHeader>

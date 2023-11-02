@@ -98,7 +98,7 @@ export const CreateCard = async function (id: string, userid: string, owner: str
             owner,
             title,
             price,
-            image
+            image: '/images/blank',
         }
     });
     return card;
@@ -109,7 +109,7 @@ export const AddToCart = async function (userid: string, cardid: string) {
     const cart = await prisma.carts.create({
         data: {
             userid,
-            item: cardid
+            cardid
         }
     });
     return cart;
@@ -133,4 +133,65 @@ export const DeleteCard = async function (id: string) {
         }
     });
     return card;
+}
+
+export const GetCardById = async function (id: string) {
+    noStore();
+    const card = await prisma.cards.findFirst({
+        where: {
+            id
+        }
+    });
+    return card;
+}
+
+export const GetLikesById = async function (cardid: string) {
+    noStore();
+    const card = await prisma.likes.count({
+        where: {
+            cardid
+        }
+    });
+    return card;
+}
+
+export const AddLike = async function (cardid: string, userid: string) {
+    noStore();
+    const card = await prisma.likes.create({
+        data: {
+            cardid,
+            userid
+        }
+    });
+    console.log('added');
+    return card;
+}
+
+export const RemoveLike = async function (cardid: string, userid: string) {
+    noStore();
+    const card = await prisma.likes.delete({
+        where: {
+            cardid,
+            userid
+        }
+    });
+    return card;
+}
+
+export const IsLiked = async function (cardid: string, userid: string) {
+    noStore();
+    const card = await prisma.likes.findFirst({
+        where: {
+            cardid,
+            userid
+        }
+    });
+    if (card) {
+        console.log('true');
+        return true;
+    }
+    else {
+        console.log('false');
+        return false;
+    }
 }

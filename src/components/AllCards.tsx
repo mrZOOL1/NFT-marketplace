@@ -19,7 +19,7 @@ const AllCards = async ({search}:Search) => {
 
   return (
     <div className='flex flex-wrap gap-10 max-w-[1920px] justify-center'>
-      {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image}/>)}
+      {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image} owner={card.owner}/>)}
     </div>
   )
 }

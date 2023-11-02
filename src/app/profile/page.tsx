@@ -2,7 +2,7 @@ import React from 'react'
 import Card from '@/components/Card';
 import { FilterCardsByUserId, FilterCardsByUserIdAndTitle } from '@/lib/prisma'
 import { Card_Type } from '@/lib/types';
-import SearchBar from '@/components/SearchBar'
+import SearchBar from '@/components/SearchBar';
 
 const page = async ({
   searchParams,
@@ -16,9 +16,9 @@ const page = async ({
   let cards;
 
   if (search === '') {
-    cards = await FilterCardsByUserId('4HZWSUTvWSViPqOIMWOVh');
+    cards = await FilterCardsByUserId('UBoUrTX5alLmJCZS5TLf');
   } else {
-    cards = await FilterCardsByUserIdAndTitle('4HZWSUTvWSViPqOIMWOVh',search);
+    cards = await FilterCardsByUserIdAndTitle('UBoUrTX5alLmJCZS5TLf',search);
   }
 
   const length = cards.length;
@@ -40,7 +40,7 @@ const page = async ({
 
         <h1 className="text-3xl font-semibold mb-4">{text}</h1>  
         <div className='flex flex-wrap gap-10 max-w-[1920px] justify-center'>
-          {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image}/>)}
+          {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image} owner={card.owner}/>)}
         </div>
 
       </div>

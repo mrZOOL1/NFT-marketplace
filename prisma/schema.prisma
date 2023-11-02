@@ -11,10 +11,20 @@ datasource db {
 model Cards {
   id     String @id
   userid String
-  owner  String
   title  String
   price  String
   image  String
+  owner  String
+}
+
+model Carts {
+  userid String @id
+  cardid String
+}
+
+model Likes {
+  userid String @id
+  cardid String
 }
 
 model Users {
@@ -23,9 +33,4 @@ model Users {
   password String
   name     String
   image    String
-}
-
-model Carts {
-  userid String @id
-  item   String
 }

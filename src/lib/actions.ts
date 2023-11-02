@@ -1,7 +1,7 @@
 "use server"
 
-import { CreateCard, DeleteCard, AddToCart } from "./prisma"
 import { nanoid } from "nanoid";
+import { CreateCard, DeleteCard, AddToCart, AddLike, RemoveLike } from "./prisma"
 
 export async function CreateCardAction(FormData: FormData) {
     const id = nanoid();
@@ -24,4 +24,16 @@ export async function AddToCartAction(FormData: FormData) {
 export async function DeleteCardAction(FormData: FormData) {
     const cardid = FormData.get('cardid') as string;
     await DeleteCard(cardid);
+}
+
+export async function ToggleLikeAction(FormData: FormData) {
+    const userid = FormData.get('userid') as string;
+    const cardid = FormData.get('cardid') as string;
+    const isliked = FormData.get('isliked') as string;
+    console.log(isliked);
+    if (isliked === 'true') {
+        await RemoveLike(cardid, userid);
+    } else {
+        await AddLike(cardid, userid);
+    }
 }

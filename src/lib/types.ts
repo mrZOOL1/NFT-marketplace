@@ -4,4 +4,5 @@ export type Card_Type = {
     title: string;
     price: string;
     image: string;
+    owner: string;
 }
