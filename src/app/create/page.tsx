@@ -40,7 +40,7 @@ const page = () => {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center h-[calc(100vh-5rem)]'>
+    <main className='flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] py-4'>
       <Card className="w-[min(350px,90%)]">
 
         <CardHeader>
@@ -92,7 +92,7 @@ const page = () => {
         </div>
 
       </Card>
-    </div>
+    </main>
   )
 }
 

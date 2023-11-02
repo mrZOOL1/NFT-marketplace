@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
-import { ThemeProvider } from "@/components/ThemeProvider"
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
@@ -24,21 +23,9 @@ export default function RootLayout({
         <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>"/>
       </head>
 
-      <body className={`${inter.className} gradient`} >
-        <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange>
-
-          <div className='min-h-screen'>
-            <Nav/>
-            {children}
-          </div>
-
-          <Footer/>
-
-        </ThemeProvider>
+      <body className={`${inter.className} gradient min-h-screen`}>
+        <Nav/>
+        {children}
       </body>
 
     </html>

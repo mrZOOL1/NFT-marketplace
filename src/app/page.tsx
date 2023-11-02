@@ -12,12 +12,12 @@ export default function Home({
   const search = searchParams?.search || '';
 
   return (
-    <main className='flex flex-col items-center'>
+    <main className='flex flex-col items-center min-h-[calc(100vh-5rem)] pb-4'>
 
       <SearchBar/>
 
-      <div className="flex flex-col items-center p-10">
-        <h1 className="text-3xl font-semibold mb-4">Featured</h1>
+      <div className="flex flex-col items-center">
+        <h1 className="text-3xl font-semibold leading-[22px] mt-4 mb-8">Featured</h1>
         <AllCards search={search}/>
       </div>
       

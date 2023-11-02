@@ -19,17 +19,17 @@ const Nav = async () => {
   const cartnum = await CountCartItems('user2');
 
   return (
-    <nav className='sticky top-0 z-10 flex items-center w-full justify-between p-4'>
+    <nav className='sticky top-0 z-10 flex items-center w-full justify-between p-4 shadoww bg-[#424242]'>
 
       <div className='flex items-center gap-2'>
         <Link href='/'>
           <Image src='/images/icon.png' alt='logo' width={40} height={40}/>
         </Link>
 
-        <Link href='/create' className='text-lg font-semibold hover:text-[#b92ed1] transition-all'>Create</Link>
+        <Link href='/create' className='text-gray-100 text-lg font-semibold hover:text-gray-300 transition-all'>Create</Link>
       </div>
 
-      <div className='hidden gap-2 onecard:flex'>
+      <div className='hidden gap-2 sm:flex'>
 
         <Link href='/auth'>
           <Button className='flex gap-2' variant="secondary">
@@ -59,10 +59,10 @@ const Nav = async () => {
 
       </div>
 
-      <div className='inline onecard:hidden'>
+      <div className='sm:hidden bg-gray-100 rounded-sm p-2 flex justify-center items-center'>
         <DropdownMenu>
 
-          <DropdownMenuTrigger><Menu/></DropdownMenuTrigger>
+          <DropdownMenuTrigger><Menu height={24} width={24}/></DropdownMenuTrigger>
 
           <DropdownMenuContent>
 

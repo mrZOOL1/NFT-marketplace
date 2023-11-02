@@ -89,6 +89,10 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#bee3ff", endColorstr="#dcbeff", GradientType=1);
   }
 
+  .shadoww {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+
   input[type=number]::-webkit-inner-spin-button,
   input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;

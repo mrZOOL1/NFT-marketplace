@@ -3,6 +3,7 @@ import Card from '@/components/Card';
 import { FilterCardsByUserId, FilterCardsByUserIdAndTitle } from '@/lib/prisma'
 import { Card_Type } from '@/lib/types';
 import SearchBar from '@/components/SearchBar';
+import Link from 'next/link';
 
 const page = async ({
   searchParams,
@@ -32,14 +33,15 @@ const page = async ({
   }
 
   return (
-    <main className='flex flex-col items-center'>
+    <main className='flex flex-col items-center min-h-[calc(100vh-5rem)] pb-4'>
 
       <SearchBar/>
 
-      <div className="flex flex-col p-10 items-center">
+      <div className="flex flex-col items-center">
 
-        <h1 className="text-3xl font-semibold mb-4">{text}</h1>  
-        <div className='flex flex-wrap gap-10 max-w-[1920px] justify-center'>
+        <h1 className="text-3xl font-semibold leading-[22px] mt-4 mb-8">{text}</h1>  
+        {text === 'No NFTs found' && <Link href='/create' className='bg-gray-200 p-2 rounded-lg'>Create one here</Link>}
+        <div className='flex flex-wrap justify-center gap-10 sm:max-w-[1800px] w-screen px-5'>
           {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image} owner={card.owner}/>)}
         </div>
 

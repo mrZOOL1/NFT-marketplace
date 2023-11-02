@@ -19,9 +19,8 @@ const SearchBar = () => {
     replace(`${pathname}?${params.toString()}`);
   }
 
-
   return (
-    <form className='flex items-center w-[min(90%,500px)] py-2' onSubmit={submitHandler}>
+    <form className='flex items-center w-[min(90%,500px)] my-4' onSubmit={submitHandler}>
       <button type='submit' className='flex items-center justify-right'>
         <Search className='absolute ml-2' size={20}/>
       </button>

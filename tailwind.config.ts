@@ -16,9 +16,6 @@ module.exports = {
       },
     },
     extend: {
-      screens: {
-        "onecard": "695px",
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

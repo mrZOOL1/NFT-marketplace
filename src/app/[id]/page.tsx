@@ -28,9 +28,9 @@ const page = async ({ params }: { params: { id: string } }) => {
   const isliked = await IsLiked(params.id,'UBoUrTX5alLmJCZS5TLf');
 
   return (
-    <div className='flex flex-col items-center justify-center h-[calc(100vh-5rem)]'>
+    <main className='flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] py-4'>
 
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center mb-4'>
         <h1 className='font-semibold text-4xl text-center'>{card?.title}</h1>
         <p className='text-center'>Owned by {card?.owner}</p>
       </div>
@@ -59,7 +59,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
       </div>
 
-    </div>
+    </main>
   )
 }
 

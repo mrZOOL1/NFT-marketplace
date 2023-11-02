@@ -7,15 +7,20 @@ import BuyNow from './BuyNow'
 
 const Card = ({id, userid, title, price, image, owner}: Card_Type) => {
 
+  let newtitle = title;
+  if (newtitle.length > 23) {
+    newtitle = newtitle.slice(0, 23)+'...';
+  }
+
   return (
-    <div className='w-[11.25rem] h-[12.5rem] onecard:w-72 onecard:h-80 card cardbg relative rounded-[10px] shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all'>
+    <div className='card cardbg relative rounded-[10px] shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all w-full sm:w-[275px]'>
       
-      <Link href={`/${id}`} className=''>
+      <Link href={`/${id}`}>
 
-        <Image className='rounded-tr-[8px] rounded-tl-[8px] h-2/3 w-full' src='/images/blank.png' alt='nft image' width={100} height={100}/>
+        <Image className='rounded-tr-[8px] rounded-tl-[8px] w-full' src='/images/blank.png' alt='nft image' width={100} height={100}/>
 
-        <div className='flex flex-col w-full px-2 pt-2 h-1/3 rounded-br-[8px] rounded-bl-[8px]'>
-          <p className='text-lg'>{title}</p>
+        <div className='flex flex-col justify-center -translate-y-4 w-full p-2 rounded-br-[8px] rounded-bl-[8px] h-24'>
+          <p className='text-lg overflow-hidden'>{newtitle}</p>
           <p className='text-sm'>{`${price} ETH`}</p>
         </div>
 
