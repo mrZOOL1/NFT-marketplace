@@ -12,6 +12,7 @@
   "dependencies": {
     "@prisma/client": "^5.5.2",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
+    "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-separator": "^1.0.3",
@@ -22,7 +23,7 @@
     "lucide-react": "^0.288.0",
     "nanoid": "^5.0.2",
     "next": "^14.0.0",
-    "next-themes": "^0.2.1",
+    "next-auth": "^4.24.4",
     "nextjs-current-url": "^1.0.3",
     "prisma": "^5.5.2",
     "react": "^18",

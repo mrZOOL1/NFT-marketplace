@@ -18,13 +18,15 @@ model Cards {
 }
 
 model Carts {
-  userid String @id
+  userid String
   cardid String
+  cartid String @id
 }
 
 model Likes {
-  userid String @id
+  userid String
   cardid String
+  likeid String @id
 }
 
 model Users {

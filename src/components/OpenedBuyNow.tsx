@@ -23,7 +23,7 @@ const BuyNow = ({id, mycard}: props) => {
             <p className='text-white text-lg'>{IsView ? 'View' : 'Buy now'}</p>
         </Link>
 
-        <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] purple absolute right-0 h-full w-2/12 flex items-center justify-center rounded-br-[8px] rounded-tr-[8px]'>
+        <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] purple absolute right-0 h-full w-2/12 flex items-center justify-center rounded-br-[8px] rounded-tr-[8px]' onSubmit={() => router.push('/')}>
             <button className='w-full flex justify-center items-center' type='submit' form='addcart'>
             {IsView ? <Trash2 color="white"/> : <ShoppingCart color="white"/>}
             </button>

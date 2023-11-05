@@ -35,7 +35,7 @@ const page = async ({ params }: { params: { id: string } }) => {
         <p className='text-center'>Owned by {card?.owner}</p>
       </div>
 
-      <div className='border-2 rounded-[12px] w-[min(500px,90%)]'>
+      <div className=' rounded-[12px] w-[min(500px,90%)] shadow2'>
         
         <div className='flex gap-1 items-center justify-start p-2 cardbg rounded-tl-[10px] rounded-tr-[10px]'>
           <LikeButton cardid={params.id} isliked={isliked}/>
@@ -46,7 +46,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
       </div>
 
-      <div className='bg-gray-200 rounded-[12px] mt-2 p-3 flex flex-col items-center gap-1 w-[min(500px,90%)]'>
+      <div className='bg-gray-100 rounded-[12px] mt-2 p-3 flex flex-col items-center gap-1 w-[min(500px,90%)] shadow2'>
 
         <div className='flex flex-col w-full items-start'>
           <p className='text-gray-600 text-sm'>Current Price</p>

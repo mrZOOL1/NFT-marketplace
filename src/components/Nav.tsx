@@ -8,23 +8,23 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { CountCartItems } from '@/lib/prisma';
 
 const Nav = async () => {
 
-  const cartnum = await CountCartItems('user2');
+  const cartnum = await CountCartItems('UBoUrTX5alLmJCZS5TLf');
 
   return (
-    <nav className='sticky top-0 z-10 flex items-center w-full justify-between p-4 shadoww bg-[#424242]'>
+    <nav className='sticky top-0 z-10 flex items-center w-full justify-between p-4 shadow1 bg-[#424242]'>
 
       <div className='flex items-center gap-2'>
         <Link href='/'>
           <Image src='/images/icon.png' alt='logo' width={40} height={40}/>
         </Link>
+
+        <Separator orientation='vertical' className='h-10'/>
 
         <Link href='/create' className='text-gray-100 text-lg font-semibold hover:text-gray-300 transition-all'>Create</Link>
       </div>

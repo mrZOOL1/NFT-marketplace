@@ -20,12 +20,11 @@ const page = () => {
 
   const showlabel = function () {
 
-    const userid = document.querySelector('input[name="userid"]') as HTMLInputElement;
     const title = document.querySelector('input[name="title"]') as HTMLInputElement;
     const price = document.querySelector('input[name="price"]') as HTMLInputElement;
     const image = document.querySelector('input[name="image"]') as HTMLInputElement;
 
-    const arr = [userid, title, price, image];
+    const arr = [title, price, image];
     let allgood = true;
 
     arr.forEach(item => {
@@ -53,10 +52,7 @@ const page = () => {
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col gap-3">
 
-                <div className='gap-1'>
-                  <Label htmlFor="userid">userid</Label>
-                  <Input id="userid" name='userid' autoComplete="off"/>
-                </div>
+                <input id="userid" name='userid' autoComplete="off" hidden defaultValue='UBoUrTX5alLmJCZS5TLf'/>
 
                 <div className='gap-1'>
                   <Label htmlFor="owner">owner</Label>

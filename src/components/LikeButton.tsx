@@ -32,7 +32,6 @@ const LikeButton = ({cardid, isliked}:props) => {
     SetIsLiked(old => !old);
   }
 
-
   return (
     <form action={ToggleLikeAction} className='w-[26px] h-[26px]' onSubmit={(e) => SubmitHandler(e)}>
       <button type='submit'>

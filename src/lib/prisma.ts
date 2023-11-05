@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { unstable_noStore as noStore } from 'next/cache';
-import { Card_Type } from './types';
+import { Card_Type, Cart_Type } from './types';
+import { nanoid } from 'nanoid';
 
 
 interface CustomNodeJsGlobal {
@@ -19,6 +20,8 @@ if (process.env.NODE_ENV === 'production') {
     }
     prisma = global.prisma;
 }
+
+export default prisma;
 
 
 
@@ -104,12 +107,23 @@ export const CreateCard = async function (id: string, userid: string, owner: str
     return card;
 }
 
-export const AddToCart = async function (userid: string, cardid: string) {
+export const AddToCart = async function (userid: string, cardid: string, cartid: string) {
     noStore();
     const cart = await prisma.carts.create({
         data: {
             userid,
-            cardid
+            cardid,
+            cartid
+        }
+    });
+    return cart;
+}
+
+export const ReadCart = async function (userid: string) {
+    noStore();
+    const cart = await prisma.carts.findMany({
+        where: {
+            userid
         }
     });
     return cart;
@@ -125,14 +139,36 @@ export const CountCartItems = async function (userid: string) {
     return num;
 }
 
+export const GetCardsFromCartitems = async function (cartitems: Cart_Type[]) {
+    noStore();
+    let cards: Card_Type[] = [];
+    for (let i = 0; i < cartitems.length; i++) {
+        const card = await GetCardById(cartitems[i].cardid);
+        if (card) {
+            cards.push(card);
+        }
+    }
+    return cards;
+}
+
+export const RemoveItemFromCart = async function (userid: string, cardid: string) {
+    noStore();
+    console.log(userid, cardid);
+    await prisma.carts.deleteMany({
+        where: {
+            userid,
+            cardid
+        }
+    });
+}
+
 export const DeleteCard = async function (id: string) {
     noStore();
-    const card = await prisma.cards.delete({
+    await prisma.cards.delete({
         where: {
             id
         }
     });
-    return card;
 }
 
 export const GetCardById = async function (id: string) {
@@ -157,25 +193,23 @@ export const GetLikesById = async function (cardid: string) {
 
 export const AddLike = async function (cardid: string, userid: string) {
     noStore();
-    const card = await prisma.likes.create({
+    await prisma.likes.create({
         data: {
             cardid,
-            userid
+            userid,
+            likeid: nanoid()
         }
     });
-    console.log('added');
-    return card;
 }
 
 export const RemoveLike = async function (cardid: string, userid: string) {
     noStore();
-    const card = await prisma.likes.delete({
+    await prisma.likes.deleteMany({
         where: {
             cardid,
             userid
         }
     });
-    return card;
 }
 
 export const IsLiked = async function (cardid: string, userid: string) {

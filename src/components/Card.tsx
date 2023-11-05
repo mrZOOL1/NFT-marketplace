@@ -12,8 +12,10 @@ const Card = ({id, userid, title, price, image, owner}: Card_Type) => {
     newtitle = newtitle.slice(0, 23)+'...';
   }
 
+  const mycard = userid === 'UBoUrTX5alLmJCZS5TLf';
+
   return (
-    <div className='card cardbg relative rounded-[10px] shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all w-full sm:w-[275px]'>
+    <div className='card cardbg relative rounded-[10px] shadow-lg hover:shadow-lg hover:-translate-y-2 transition-all w-full sm:w-[275px] '>
       
       <Link href={`/${id}`}>
 
@@ -27,7 +29,7 @@ const Card = ({id, userid, title, price, image, owner}: Card_Type) => {
       </Link>
 
       <div className='h-8 absolute w-full bottom-0 items-center justify-start flex'>
-        <BuyNow id={id}/>
+        <BuyNow id={id} mycard={mycard}/>
       </div>
 
     </div>

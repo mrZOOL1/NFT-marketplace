@@ -21,11 +21,13 @@ const SearchBar = () => {
 
   return (
     <form className='flex items-center w-[min(90%,500px)] my-4' onSubmit={submitHandler}>
+
       <button type='submit' className='flex items-center justify-right'>
         <Search className='absolute ml-2' size={20}/>
       </button>
       
-      <Input placeholder='search' className='pl-8' name='search' autoComplete='off'/>
+      <Input placeholder='search' className='pl-8 shadow2' name='search' autoComplete='off'/>
+
     </form>
   )
 }
