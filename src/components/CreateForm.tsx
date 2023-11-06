@@ -43,7 +43,7 @@ const CreateForm = ({email, name}:props) => {
     }
 
   return (
-    <Card className="w-[min(350px,90%)]">
+    <Card className="w-[min(350px,90%)] shadow2">
 
     <CardHeader>
         <CardTitle>Create NFT</CardTitle>
@@ -52,29 +52,29 @@ const CreateForm = ({email, name}:props) => {
 
     <CardContent>
         <form action={CreateCardAction} onSubmit={showlabel} id='createform'>
-        <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col gap-3">
+          <div className="grid w-full items-center gap-4">
+              <div className="flex flex-col gap-3">
 
-            <input id="userid" name='userid' autoComplete="off" hidden defaultValue={email}/>
-            <input id="owner" name='owner' autoComplete="off" hidden defaultValue={name || 'no name'}/>
+              <input id="userid" name='userid' autoComplete="off" hidden defaultValue={email}/>
+              <input id="owner" name='owner' autoComplete="off" hidden defaultValue={name || 'no name'}/>
 
-            <div className='gap-1'>
-              <Label htmlFor="title">Title</Label>
-              <Input id="title" name='title' autoComplete="off"/>
-            </div>
+              <div className='gap-1'>
+                <Label htmlFor="title">Title</Label>
+                <Input id="title" name='title' autoComplete="off"/>
+              </div>
 
-            <div className='gap-1'>
-              <Label htmlFor="price">Price</Label>
-              <Input id="price" name='price' type='number' autoComplete="off"/>
-            </div>
+              <div className='gap-1'>
+                <Label htmlFor="price">Price (ETH)</Label>
+                <Input id="price" name='price' type='number' autoComplete="off"/>
+              </div>
 
-            <div className='gap-1'>
-              <Label htmlFor="image">Image</Label>
-              <Input id="image" name='image' type="file" accept="image/png, image/jpg, image/jpeg"/>
-            </div>
+              <div className='gap-1'>
+                <Label htmlFor="image">Image</Label>
+                <Input id="image" name='image' type="file" accept="image/png, image/jpg, image/jpeg"/>
+              </div>
 
-            </div>
-        </div>
+              </div>
+          </div>
         </form>
     </CardContent>
 

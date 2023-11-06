@@ -46,7 +46,7 @@ const page = async ({ params }: { params: { id: string } }) => {
         </div>
 
         <div className='h-10 w-full items-center justify-start flex relative'>
-          <OpenedBuyNow id={params.id} mycard={mycard} email={session.user!.email!}/>
+          <OpenedBuyNow id={params.id} mycard={mycard} email={session.user!.email!} price={card!.price}/>
         </div>
 
       </div>

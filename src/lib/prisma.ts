@@ -239,3 +239,16 @@ export const IsLiked = async function (cardid: string, userid: string) {
         return false;
     }
 }
+
+export const UpdatePrice = async function (price: string, id: string) {
+    noStore();
+    const card = await prisma.cards.update({
+        where: {
+            id
+        },
+        data: {
+            price
+        }
+    });
+}
+
