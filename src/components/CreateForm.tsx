@@ -16,9 +16,10 @@ import {
 
 interface props {
   email: string;
+  name: string | null | undefined;
 }
 
-const CreateForm = ({email}:props) => {
+const CreateForm = ({email, name}:props) => {
 
     const [Correct, SetCorrect] = useState(true);
 
@@ -32,10 +33,10 @@ const CreateForm = ({email}:props) => {
       let allgood = true;
   
       arr.forEach(item => {
-          if (item.value.length === 0) {
-            SetCorrect(false);
-            allgood = false;
-          }
+        if (item.value.length === 0) {
+          SetCorrect(false);
+          allgood = false;
+        }
       });
       if (allgood) {
         SetCorrect(true); 
@@ -56,25 +57,21 @@ const CreateForm = ({email}:props) => {
             <div className="flex flex-col gap-3">
 
             <input id="userid" name='userid' autoComplete="off" hidden defaultValue={email}/>
+            <input id="owner" name='owner' autoComplete="off" hidden defaultValue={name || 'no name'}/>
 
             <div className='gap-1'>
-                <Label htmlFor="owner">owner</Label>
-                <Input id="owner" name='owner' autoComplete="off"/>
+              <Label htmlFor="title">Title</Label>
+              <Input id="title" name='title' autoComplete="off"/>
             </div>
 
             <div className='gap-1'>
-                <Label htmlFor="title">Title</Label>
-                <Input id="title" name='title' autoComplete="off"/>
+              <Label htmlFor="price">Price</Label>
+              <Input id="price" name='price' type='number' autoComplete="off"/>
             </div>
 
             <div className='gap-1'>
-                <Label htmlFor="price">Price</Label>
-                <Input id="price" name='price' type='number' autoComplete="off"/>
-            </div>
-
-            <div className='gap-1'>
-                <Label htmlFor="image">Image</Label>
-                <Input id="image" name='image' autoComplete="off"/>
+              <Label htmlFor="image">Image</Label>
+              <Input id="image" name='image' autoComplete="off"/>
             </div>
 
             </div>

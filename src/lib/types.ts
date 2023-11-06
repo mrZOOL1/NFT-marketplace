@@ -5,7 +5,7 @@ export type Card_Type = {
     price: string;
     image: string;
     owner: string;
-    email: string;
+    email?: string;
 }
 
 export type Cart_Type = {
