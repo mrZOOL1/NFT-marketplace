@@ -3,8 +3,16 @@ import Image from 'next/image'
 import { GetCardById,GetLikesById, IsLiked } from '@/lib/prisma'
 import LikeButton from '@/components/LikeButton'
 import OpenedBuyNow from '@/components/OpenedBuyNow'
+import { getServerSession } from 'next-auth';
+import {options} from '@/app/api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation';
 
 const page = async ({ params }: { params: { id: string } }) => {
+
+  const session = await getServerSession(options);
+  if (!session) {
+    redirect('/api/auth/signin?callbackUrl=/');
+  }
 
   const card = await GetCardById(params.id);
   const mycard = card?.userid === 'UBoUrTX5alLmJCZS5TLf';

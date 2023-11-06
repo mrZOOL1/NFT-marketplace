@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from './ui/button';
 import { Separator } from "@/components/ui/separator"
 import Image from 'next/image';
-import { UserCircle2, Mail, ShoppingCart, Menu } from 'lucide-react';
+import { UserCircle2, Mail, ShoppingCart, Menu, LogOut, Heading1 } from 'lucide-react';
 import Link from 'next/link';
 import {
   DropdownMenu,
@@ -11,9 +11,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { CountCartItems } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import {options} from '@/app/api/auth/[...nextauth]/route'
+import SignOut from './SignOut';
+import SignOutMobile from './SignOutMobile';
 
 const Nav = async () => {
 
+  const session = await getServerSession(options);
   const cartnum = await CountCartItems('UBoUrTX5alLmJCZS5TLf');
 
   return (
@@ -31,12 +36,15 @@ const Nav = async () => {
 
       <div className='hidden gap-2 sm:flex'>
 
-        <Link href='/auth'>
-          <Button className='flex gap-2' variant="secondary">
-            <Mail/>
-            <p>Signin/out</p>
-          </Button>
-        </Link>
+        {session ? <SignOut/> :
+
+          <Link href='/api/auth/signin?callbackUrl=/'>
+            <Button className='flex gap-2' variant="secondary">
+              <Mail/>Sign In
+            </Button>
+          </Link>
+
+        }
 
         <Link href='/profile'>
           <Button variant="secondary" size='icon'>
@@ -77,7 +85,9 @@ const Nav = async () => {
               </Link>
             </DropdownMenuItem>
 
-            <DropdownMenuItem><Link href='/auth'>Signin/out</Link></DropdownMenuItem>
+            <DropdownMenuItem>
+              {session ? <SignOutMobile/> : <Link href='/api/auth/signin?callbackUrl=/'>Sign In</Link>}
+            </DropdownMenuItem>
 
           </DropdownMenuContent>
 

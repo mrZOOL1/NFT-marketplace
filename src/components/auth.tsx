@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation';
-import {signOut} from 'next-auth/react'
+import {signIn, signOut} from 'next-auth/react'
 import Image from 'next/image'
 
 interface props {
@@ -13,9 +13,7 @@ export const SignInButton = ({page}:props) => {
     const router = useRouter();
 
   return (
-    <div>
-      <button onClick={() => router.push(`/api/auth/signin?callbackUrl=/${page}`)}>Sign In</button>
-    </div>
+    <button onClick={() => {signIn('google'); router.push(`/api/auth/signin?callbackUrl=/${page}`);}}>Sign In</button>
   )
 }
 
@@ -44,18 +42,3 @@ export const ProfileImage = ({user}: Props) => {
     </div>     
   )
 }
-
-
-
-
-
-// import { getServerSession } from 'next-auth';
-// import {options} from '../api/auth/[...nextauth]/options'
-// import { redirect } from 'next/navigation';
-
-// const page = async () => {
-
-//   const session = await getServerSession(options);
-// if (!session) {
-//     redirect('/api/auth/signin?callbackUrl=/');
-//   }

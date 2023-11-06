@@ -4,6 +4,9 @@ import { FilterCardsByUserId, FilterCardsByUserIdAndTitle } from '@/lib/prisma'
 import { Card_Type } from '@/lib/types';
 import SearchBar from '@/components/SearchBar';
 import Link from 'next/link';
+import { getServerSession } from 'next-auth';
+import {options} from '@/app/api/auth/[...nextauth]/route'
+import { redirect } from 'next/navigation';
 
 const page = async ({
   searchParams,
@@ -12,6 +15,11 @@ const page = async ({
     search?: string;
   };
 }) => {
+
+  const session = await getServerSession(options);
+  if (!session) {
+    redirect('/api/auth/signin?callbackUrl=/');
+  }
 
   const search = searchParams?.search || '';
   let cards;
@@ -46,6 +54,7 @@ const page = async ({
         </div>
 
       </div>
+
     </main>
   )
 }
