@@ -9,7 +9,7 @@ import Link from 'next/link';
 interface props {
     id: string;
     mycard :boolean;
-    email: string;
+    email?: string;
 }
 
 const BuyNow = ({id, mycard, email}: props) => {
@@ -20,7 +20,7 @@ const BuyNow = ({id, mycard, email}: props) => {
 
   return (
     <>
-        <Link href={IsView ? `/${id}` : `/checkout/${id}`} className='purple text-white whitespace-nowrap h-full w-10/12 rounded-bl-[8px] flex items-center justify-center' onClick={() => router.push(`/checkout/${id}`)}>
+        <Link href={IsView ? `/${id}` : `/cart}`} className='purple text-white whitespace-nowrap h-full w-10/12 rounded-bl-[8px] flex items-center justify-center' onClick={() => router.push(`/checkout/${id}`)}>
             <p className='text-white'>{IsView ? 'View' : 'Buy now'}</p>
         </Link>
 

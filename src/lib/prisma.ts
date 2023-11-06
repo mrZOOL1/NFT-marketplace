@@ -93,7 +93,7 @@ export const FilterCardsByUserIdAndTitle = async function (userid: string, title
     }
 }
 
-export const CreateCard = async function (id: string, userid: string, owner: string, title: string, price: string, image: string) {
+export const CreateCard = async function (id: string, userid: string, owner: string, title: string, price: string, image: any) {
     const card = await prisma.cards.create({
         data: {
             id,
@@ -167,6 +167,16 @@ export const DeleteCard = async function (id: string) {
     await prisma.cards.delete({
         where: {
             id
+        }
+    });
+    await prisma.carts.deleteMany({
+        where: {
+            cardid: id
+        }
+    });
+    await prisma.likes.deleteMany({
+        where: {
+            cardid: id
         }
     });
 }

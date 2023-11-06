@@ -1,11 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
 import { GetCardById,GetLikesById, IsLiked } from '@/lib/prisma'
-import LikeButton from '@/components/LikeButton'
 import OpenedBuyNow from '@/components/OpenedBuyNow'
 import { getServerSession } from 'next-auth';
 import {options} from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation';
+import LikeButton from '@/components/LikeButton';
 
 const page = async ({ params }: { params: { id: string } }) => {
 
@@ -32,10 +32,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
       <div className=' rounded-[12px] w-[min(500px,90%)] shadow2'>
         
-        <div className='flex gap-1 items-center justify-start p-2 cardbg rounded-tl-[10px] rounded-tr-[10px]'>
-          <LikeButton cardid={params.id} isliked={isliked} email={session.user!.email!}/>
-          <p className='text-lg font-semibold'>{num}</p>
-        </div>
+        <LikeButton cardid={params.id} isliked={isliked} email={session.user!.email!} likes={num}/>
 
         <Image src='/images/blank.png' alt='nft' width={500} height={500} className='rounded-bl-[10px] rounded-br-[10px]'/>
 

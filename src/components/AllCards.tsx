@@ -5,7 +5,7 @@ import { Card_Type } from '../lib/types';
 
 interface props {
   search:string;
-  email: string;
+  email?: string;
 }
 
 const AllCards = async ({search, email}:props) => {

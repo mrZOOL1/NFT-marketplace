@@ -7,9 +7,10 @@ import { DeleteCartItemsAction } from '@/lib/actions';
 
 interface props {
     allcards: Card_Type[];
+    email:string;
 }
 
-const Cart = ({allcards}:props) => {
+const Cart = ({allcards, email}:props) => {
 
     const GetDefaultTotal = function () {
         let DefaultTotal = 0;
@@ -30,7 +31,6 @@ const Cart = ({allcards}:props) => {
     const [Total, SetTotal] = useState(GetDefaultTotal());
     const [CheckedCount, SetCheckedCount] = useState(allcards.length);
     const [IdToDelete, SetIdToDelete] = useState(GetDefaultIdArray());
-    
 
     const CheckHandler = function (price:number, index: number, cardid:string) {
         const boxes = document.querySelectorAll('#checkbox') as NodeListOf<HTMLInputElement>;
@@ -95,14 +95,14 @@ const Cart = ({allcards}:props) => {
                     <button onClick={SelectAll}>Select all items</button>
                     <form action={DeleteCartItemsAction}>
                         <button type='submit'>Delete selected items</button>
-                        <input type="text" name='userid' hidden defaultValue='UBoUrTX5alLmJCZS5TLf'/>
+                        <input type="text" name='userid' hidden defaultValue={email}/>
                         <input type="text" name='IdToDelete' hidden defaultValue={IdToDelete.join('#')}/>
                     </form>
                 </div>
             </div>
 
-            <div className='flex flex-col bg-gray-200 rounded-[12px] w-full p-2 shadow2'>
-                {allcards.map((card:Card_Type, index:number) => <CartItem index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} image={card.image} cardid={card.id} email={card.userid}/>)}
+            <div className='flex flex-col bg-gray-200 rounded-[12px] w-full p-2 shadow2' style={{display: allcards.length===0 ? 'none' : 'inline-block'}}>
+                {allcards.map((card:Card_Type, index:number) => <CartItem index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} image={card.image} cardid={card.id} email={email}/>)}
             </div>
 
             <div className='bg-gray-200 rounded-[12px] h-32 w-full flex flex-col items-center justify-between p-2 sm:hidden'>

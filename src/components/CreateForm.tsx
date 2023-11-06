@@ -29,18 +29,17 @@ const CreateForm = ({email, name}:props) => {
       const price = document.querySelector('input[name="price"]') as HTMLInputElement;
       const image = document.querySelector('input[name="image"]') as HTMLInputElement;
   
-      const arr = [title, price, image];
       let allgood = true;
+
+      if (title.value.length === 0 || price.value.length === 0 || image.files?.length === 0) {
+        SetCorrect(false);
+        allgood = false;
+      }
   
-      arr.forEach(item => {
-        if (item.value.length === 0) {
-          SetCorrect(false);
-          allgood = false;
-        }
-      });
       if (allgood) {
         SetCorrect(true); 
       }
+
     }
 
   return (
@@ -71,7 +70,7 @@ const CreateForm = ({email, name}:props) => {
 
             <div className='gap-1'>
               <Label htmlFor="image">Image</Label>
-              <Input id="image" name='image' autoComplete="off"/>
+              <Input id="image" name='image' type="file" accept="image/png, image/jpg, image/jpeg"/>
             </div>
 
             </div>

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { getServerSession } from 'next-auth';
 import {options} from '@/app/api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
 const page = async ({
   searchParams,
@@ -51,7 +52,7 @@ const page = async ({
       <div className="flex flex-col items-center">
 
         <h1 className="text-3xl font-semibold leading-[22px] mt-4 mb-8">{text}</h1>  
-        {text === 'No NFTs found' && <Link href='/create' className='bg-gray-200 p-2 rounded-lg'>Create one here</Link>}
+        {text === 'No NFTs found' && <Link href='/create'><Button variant="secondary">Create one here</Button></Link>}
         <div className='flex flex-wrap justify-center gap-10 sm:max-w-[1800px] w-screen px-5'>
           {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image} owner={card.owner} email={session.user!.email!}/>)}
         </div>

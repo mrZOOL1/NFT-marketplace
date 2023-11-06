@@ -25,7 +25,7 @@ const page = async () => {
       <h1 style={{display: IsEmpty ? '' : 'none'}} className='font-semibold text-3xl mt-4'>Your shopping cart is empty</h1>
 
       <div style={{display: IsEmpty ? 'none' : ''}} className='w-[min(100%,1200px)]  flex justify-center gap-4'>
-        <Cart allcards={allcards}/>
+        <Cart allcards={allcards} email={session.user!.email!}/>
       </div>
 
     </div>

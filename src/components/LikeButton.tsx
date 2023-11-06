@@ -1,31 +1,32 @@
 'use client';
 
-import React, {useState} from 'react'
-import Image from 'next/image';
-import { ToggleLikeAction } from '@/lib/actions';
+import React, { useState } from 'react'
+import Heart from '@/components/Heart'
 
 interface props {
-  cardid: string;
-  isliked: boolean;
-  email: string;
+    cardid: string;
+    isliked: boolean;
+    email: string;
+    likes:number;
 }
 
-const LikeButton = ({cardid, isliked, email}:props) => {
-  const [IsLiked, SetIsLiked] = useState(isliked);
+const LikeButton = ({cardid, isliked, email, likes}:props) => {
 
-  const SubmitHandler = function (e:React.FormEvent<HTMLFormElement>) {
-    SetIsLiked(old => !old);
-  }
+    const [Num, SetNum] = useState(likes);
+
+    const ChangeNum = function (IsAdd:boolean) {
+        if (IsAdd) {
+            SetNum(old => old + 1);
+        } else {
+            SetNum(old => old - 1);         
+        }
+    }
 
   return (
-    <form action={ToggleLikeAction} className='w-[26px] h-[26px]' onSubmit={(e) => SubmitHandler(e)}>
-      <button type='submit'>
-        {IsLiked ? <Image src='/images/filled-heart.svg' alt='red heart' width={26} height={26}/> : <Image src='/images/heart.svg' alt='heart' width={26} height={26}/>}
-      </button>
-      <input type="text" hidden defaultValue={email} name='userid'/>
-      <input type="text" hidden defaultValue={cardid} name='cardid'/>
-      <input type="text" hidden defaultValue={IsLiked.toString()} name='isliked'/>
-    </form>
+    <div className='flex gap-1 items-center justify-start p-2 cardbg rounded-tl-[10px] rounded-tr-[10px]'>
+        <Heart cardid={cardid} isliked={isliked} email={email} ChangeNum={ChangeNum}/>
+        <p className='text-lg font-semibold'>{Num}</p>
+    </div>
   )
 }
 
