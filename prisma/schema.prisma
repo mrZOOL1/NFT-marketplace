@@ -30,9 +30,5 @@ model Likes {
 }
 
 model Users {
-  id       String @id
-  email    String
-  password String
-  name     String
-  image    String
+  email String @id
 }
