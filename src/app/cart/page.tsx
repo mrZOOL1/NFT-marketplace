@@ -11,8 +11,11 @@ const page = async () => {
   if (!session) {
     redirect('/api/auth/signin?callbackUrl=/');
   }
+  if (session.user?.email === (null || undefined)) {
+    redirect('/api/auth/signin?callbackUrl=/');
+  }
 
-  const cartitems = await ReadCart('UBoUrTX5alLmJCZS5TLf');
+  const cartitems = await ReadCart(session.user!.email!);
   const allcards = await GetCardsFromCartitems(cartitems);
   const IsEmpty = cartitems.length === 0;
 

@@ -5,14 +5,14 @@ import { Card_Type } from '@/lib/types'
 
 import BuyNow from './BuyNow'
 
-const Card = ({id, userid, title, price, image, owner}: Card_Type) => {
+const Card = ({id, userid, title, price, image, owner, email}: Card_Type) => {
 
   let newtitle = title;
   if (newtitle.length > 23) {
     newtitle = newtitle.slice(0, 23)+'...';
   }
 
-  const mycard = userid === 'UBoUrTX5alLmJCZS5TLf';
+  const mycard = userid === email;
 
   return (
     <div className='card cardbg relative rounded-[10px] shadow-lg hover:shadow-lg hover:-translate-y-2 transition-all w-full sm:w-[275px] '>
@@ -29,7 +29,7 @@ const Card = ({id, userid, title, price, image, owner}: Card_Type) => {
       </Link>
 
       <div className='h-8 absolute w-full bottom-0 items-center justify-start flex'>
-        <BuyNow id={id} mycard={mycard}/>
+        <BuyNow id={id} mycard={mycard} email={email}/>
       </div>
 
     </div>

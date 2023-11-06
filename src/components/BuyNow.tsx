@@ -9,9 +9,10 @@ import Link from 'next/link';
 interface props {
     id: string;
     mycard :boolean;
+    email: string;
 }
 
-const BuyNow = ({id, mycard}: props) => {
+const BuyNow = ({id, mycard, email}: props) => {
 
     const router = useRouter();
     const path = usePathname();
@@ -27,7 +28,7 @@ const BuyNow = ({id, mycard}: props) => {
             <button className='w-full flex justify-center items-center' type='submit' form='addcart'>
             {IsView ? <Trash2 color="white"/> : <ShoppingCart color="white"/>}
             </button>
-            <input type="text" hidden defaultValue='UBoUrTX5alLmJCZS5TLf' name='userid'/>
+            <input type="text" hidden defaultValue={email} name='userid'/>
             <input type="text" hidden defaultValue={id} name='cardid'/>
         </form>
     </>

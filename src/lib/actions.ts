@@ -2,6 +2,7 @@
 
 import { nanoid } from "nanoid";
 import { CreateCard, DeleteCard, AddToCart, AddLike, RemoveLike, RemoveItemFromCart } from "./prisma"
+import { redirect } from 'next/navigation';
 
 export async function CreateCardAction(FormData: FormData) {
     const id = nanoid();
@@ -19,7 +20,11 @@ export async function AddToCartAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
     const cardid = FormData.get('cardid') as string;
     const cartid = nanoid();
-    await AddToCart(userid, cardid, cartid);
+    if (userid === 'notsignedin') {
+        redirect('/api/auth/signin?callbackUrl=/');
+    } else {
+        await AddToCart(userid, cardid, cartid);
+    }
 }
 
 export async function DeleteCardAction(FormData: FormData) {

@@ -14,7 +14,11 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-const CreateForm = () => {
+interface props {
+  email: string;
+}
+
+const CreateForm = ({email}:props) => {
 
     const [Correct, SetCorrect] = useState(true);
 
@@ -51,7 +55,7 @@ const CreateForm = () => {
         <div className="grid w-full items-center gap-4">
             <div className="flex flex-col gap-3">
 
-            <input id="userid" name='userid' autoComplete="off" hidden defaultValue='UBoUrTX5alLmJCZS5TLf'/>
+            <input id="userid" name='userid' autoComplete="off" hidden defaultValue={email}/>
 
             <div className='gap-1'>
                 <Label htmlFor="owner">owner</Label>

@@ -11,10 +11,11 @@ interface props {
   image: string;
   index: number;
   cardid: string;
+  email: string;
   CheckHandler: (price: number, index: number, cardid: string) => void;
 }
 
-const CartItem = ({title, price, image, CheckHandler, index, cardid}:props) => {
+const CartItem = ({title, price, image, CheckHandler, index, cardid, email}:props) => {
 
   const clickhandler = function () {
     CheckHandler(parseFloat(price), index, cardid);
@@ -33,7 +34,7 @@ const CartItem = ({title, price, image, CheckHandler, index, cardid}:props) => {
       </div>
 
       <form action={DeleteCartItemAction} className='flex justify-end w-full mr-2'>
-        <input type="text" name='userid' hidden defaultValue='UBoUrTX5alLmJCZS5TLf'/>
+        <input type="text" name='userid' hidden defaultValue={email}/>
         <input type="text" name='cardid' hidden defaultValue={cardid}/>
         <button type='submit'>
           <Trash2 className='hover:scale-[1.2] transition-all'/>

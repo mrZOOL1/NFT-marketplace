@@ -20,14 +20,17 @@ const page = async ({
   if (!session) {
     redirect('/api/auth/signin?callbackUrl=/');
   }
+  if (session.user?.email === (null || undefined)) {
+    redirect('/api/auth/signin?callbackUrl=/');
+  }
 
   const search = searchParams?.search || '';
   let cards;
 
   if (search === '') {
-    cards = await FilterCardsByUserId('UBoUrTX5alLmJCZS5TLf');
+    cards = await FilterCardsByUserId(session.user!.email!);
   } else {
-    cards = await FilterCardsByUserIdAndTitle('UBoUrTX5alLmJCZS5TLf',search);
+    cards = await FilterCardsByUserIdAndTitle(session.user!.email!,search);
   }
 
   const length = cards.length;
@@ -50,7 +53,7 @@ const page = async ({
         <h1 className="text-3xl font-semibold leading-[22px] mt-4 mb-8">{text}</h1>  
         {text === 'No NFTs found' && <Link href='/create' className='bg-gray-200 p-2 rounded-lg'>Create one here</Link>}
         <div className='flex flex-wrap justify-center gap-10 sm:max-w-[1800px] w-screen px-5'>
-          {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image} owner={card.owner}/>)}
+          {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image} owner={card.owner} email={session.user!.email!}/>)}
         </div>
 
       </div>

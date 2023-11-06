@@ -28,7 +28,3 @@ model Likes {
   cardid String
   likeid String @id
 }
-
-model Users {
-  email String @id
-}
