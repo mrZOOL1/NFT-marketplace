@@ -5,7 +5,7 @@ import { Card_Type } from '@/lib/types';
 import SearchBar from '@/components/SearchBar';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import {options} from '@/app/api/auth/[...nextauth]/route'
+import {options} from '@/app/api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 

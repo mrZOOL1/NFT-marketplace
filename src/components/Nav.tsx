@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { CountCartItems } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
-import {options} from '@/app/api/auth/[...nextauth]/route'
+import {options} from '@/app/api/auth/[...nextauth]/options'
 import SignOut from './SignOut';
 import SignOutMobile from './SignOutMobile';
 

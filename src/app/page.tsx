@@ -1,7 +1,7 @@
 import AllCards from "@/components/AllCards"
 import SearchBar from '../components/SearchBar'
 import { getServerSession } from 'next-auth';
-import {options} from '@/app/api/auth/[...nextauth]/route'
+import {options} from '@/app/api/auth/[...nextauth]/options'
 
 export default async function Home({
   searchParams,

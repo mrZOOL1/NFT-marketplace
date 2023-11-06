@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { GetCardById,GetLikesById, IsLiked } from '@/lib/prisma'
 import OpenedBuyNow from '@/components/OpenedBuyNow'
 import { getServerSession } from 'next-auth';
-import {options} from '@/app/api/auth/[...nextauth]/route'
+import {options} from '@/app/api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation';
 import LikeButton from '@/components/LikeButton';
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { ReadCart, GetCardsFromCartitems } from '@/lib/prisma'
 import Cart from '@/components/Cart';
 import { getServerSession } from 'next-auth';
-import {options} from '@/app/api/auth/[...nextauth]/route'
+import {options} from '@/app/api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation';
 
 const page = async () => {
