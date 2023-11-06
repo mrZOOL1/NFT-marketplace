@@ -11,7 +11,9 @@ export async function CreateCardAction(FormData: FormData) {
     const title = FormData.get('title') as string;
     const price = FormData.get('price') as string;
     const image = FormData.get('image') as File | null;
-    if (title !== '' && price !== '' && image !== null) {
+
+    const IsImage = image?.type === ('image/png' || 'image/jpg' || 'image/jpeg')
+    if (title !== '' && price !== '' && IsImage) {
         await CreateCard(id, userid, owner, title, price, image);
     }
 }
