@@ -1,65 +1,34 @@
 import React from 'react'
-import Card from '@/components/Card';
-import { FilterCardsByUserId, FilterCardsByUserIdAndTitle } from '@/lib/prisma'
-import { Card_Type } from '@/lib/types';
-import SearchBar from '@/components/SearchBar';
-import Link from 'next/link';
-import { getServerSession } from 'next-auth';
-import {options} from '@/app/api/auth/[...nextauth]/options'
-import { redirect } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { Wallet2, Image } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
-const page = async ({
-  searchParams,
-}: {
-  searchParams?: {
-    search?: string;
-  };
-}) => {
-
-  const session = await getServerSession(options);
-  if (!session) {
-    redirect('/api/auth/signin?callbackUrl=/');
-  }
-  if (session.user?.email === (null || undefined)) {
-    redirect('/api/auth/signin?callbackUrl=/');
-  }
-
-  const search = searchParams?.search || '';
-  let cards;
-
-  if (search === '') {
-    cards = await FilterCardsByUserId(session.user!.email!);
-  } else {
-    cards = await FilterCardsByUserIdAndTitle(session.user!.email!,search);
-  }
-
-  const length = cards.length;
-  let text;
-  if (length === 0) {
-    text = 'No NFTs found'
-  } else if (length === 1) {
-    text = 'Your NFT'
-  } else {
-    text = 'Your NFTs'
-  }
-
+const page = () => {
   return (
-    <main className='flex flex-col items-center min-h-[calc(100vh-5rem)] pb-4'>
+    <div className='flex items-center justify-center min-h-[calc(100vh-5rem)] gap-6'>
+        
+        <Link href='/profile/wallet' className='flex flex-col items-center gap-2'>
 
-      <SearchBar/>
+            <p className='font-semibold text-xl'>Wallet</p>
 
-      <div className="flex flex-col items-center">
+            <Button variant='secondary' className='bg-gray-200 rounded-[12px] w-28 h-28 flex items-center justify-center shadow2'>
+                <Wallet2 size={60}/>
+            </Button>
 
-        <h1 className="text-3xl font-semibold leading-[22px] mt-4 mb-8">{text}</h1>  
-        {text === 'No NFTs found' && <Link href='/create'><Button variant="secondary">Create one here</Button></Link>}
-        <div className='flex flex-wrap justify-center gap-10 sm:max-w-[1800px] w-screen px-5'>
-          {cards?.map((card:Card_Type) => <Card key={card.id} id={card.id} userid={card.userid} title={card.title} price={card.price} image={card.image} owner={card.owner} email={session.user!.email!}/>)}
-        </div>
+        </Link>
 
-      </div>
 
-    </main>
+        <Link href='/profile/cards' className='flex flex-col items-center gap-2'>
+
+            <p className='font-semibold text-xl'>NFTs</p>
+
+            <Button variant='secondary' className='bg-gray-200 rounded-[12px] w-28 h-28 flex items-center justify-center shadow2'>
+                <Image size={60}/>
+            </Button>
+
+        </Link>
+
+    </div>
   )
 }
 

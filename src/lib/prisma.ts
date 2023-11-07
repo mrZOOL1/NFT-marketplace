@@ -264,3 +264,54 @@ export const BuyCard = async function (id: string, userid: string, owner: string
         }
     });
 }
+
+export const GetFunds = async function (email: string) {
+    noStore();
+    const user = await prisma.users.findFirst({
+        where: {
+            email
+        }
+    });
+    return user?.money;
+}
+
+export const AddFunds = async function (email: string, money: number) {
+    noStore();
+
+    const funds = await GetFunds(email);
+
+    if (funds) {
+
+        await prisma.users.update({
+            where: {
+                email
+            },
+            data: {
+                money: money + funds
+            }
+        });
+
+    } else {
+
+        await prisma.users.create({
+            data: {
+                email,
+                money
+            }
+        });
+
+    }
+}
+
+export const DecreaseFunds = async function (email: string, money: number) {
+    noStore();
+
+    await prisma.users.update({
+        where: {
+            email
+        },
+        data: {
+            money: money
+        }
+    });
+}

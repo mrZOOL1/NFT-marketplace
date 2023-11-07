@@ -54,12 +54,12 @@ const EditForm = ({oldprice}:props) => {
     <Card className="w-[min(350px,90%)] shadow2">
 
     <CardHeader>
-        <CardTitle>Edit Price</CardTitle>
-        <CardDescription>Change the price of your NFT (ETH)</CardDescription>
+      <CardTitle>Edit Price</CardTitle>
+      <CardDescription>Change the price of your NFT (ETH)</CardDescription>
     </CardHeader>
 
     <CardContent>
-        <form action={UpdatePriceAction} onSubmit={showlabel} id='createform'>
+        <form action={UpdatePriceAction} onSubmit={showlabel} id='createform' noValidate>
             <div className="grid w-full items-center gap-4">
                 <div className="flex flex-col gap-3">
                     <div className='gap-1'>
@@ -73,9 +73,9 @@ const EditForm = ({oldprice}:props) => {
     </CardContent>
 
     <CardFooter className="flex flex-col items-center justify-center">
-        <Button type='submit' form='createform' >Edit</Button>
-        <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Price must be between 0.001 and 9999</p>
-        <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Different ? 'none' : ''}}>Price must be different</p>
+      <Button type='submit' form='createform' >Edit</Button>
+      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Price must be between 0.001 and 9999</p>
+      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Different ? 'none' : ''}}>Price must be different</p>
     </CardFooter>
 
     </Card>

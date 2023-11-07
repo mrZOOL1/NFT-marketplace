@@ -1,8 +1,8 @@
 "use server"
 
 import { nanoid } from "nanoid";
-import { CreateCard, DeleteCard, AddToCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard } from "./prisma"
 import { redirect } from 'next/navigation';
+import { CreateCard, DeleteCard, AddToCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard, AddFunds, DecreaseFunds } from "./prisma"
 
 export async function CreateCardAction(FormData: FormData) {
     const id = nanoid();
@@ -70,11 +70,27 @@ export async function BuyAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
     const name = FormData.get('name') as string;
     const allid = FormData.get('allid') as string;
+    const totalstring = FormData.get('total') as string;
+    const fundsstring = FormData.get('funds') as string;
+    const total = parseFloat(totalstring)
+    const funds = parseFloat(fundsstring)
     const IdArray = allid.split('#');
-    IdArray.forEach(async (id) => {
-        if (id !== '') {
-            await BuyCard(id, userid, name);
-            await RemoveItemFromCart(userid, id);
-        }
-    });
+
+    if (funds >= total) {
+        IdArray.forEach(async (id) => {
+            if (id !== '') {
+                await BuyCard(id, userid, name);
+                await RemoveItemFromCart(userid, id);
+            }
+        });
+        DecreaseFunds(userid, funds - total);
+    }
 }
+
+export async function AddFundsAction(FormData: FormData) {
+    const email = FormData.get('email') as string;
+    const input = FormData.get('money') as string;
+    const money = parseFloat(input);
+    await AddFunds(email, money);
+}
+

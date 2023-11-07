@@ -9,9 +9,10 @@ interface props {
     allcards: Card_Type[];
     email:string;
     name: string;
+    funds: number | undefined;
 }
 
-const Cart = ({allcards, email, name}:props) => {
+const Cart = ({allcards, email, name, funds}:props) => {
 
     const GetDefaultTotal = function () {
         let DefaultTotal = 0;
@@ -80,14 +81,35 @@ const Cart = ({allcards, email, name}:props) => {
         }
     }
 
+    const [CanAfford, SetCanAfford] = useState(true);
+    const showlabel = function () {
+  
+        let allgood = true;
+  
+        if (!(funds && funds >= Total)) {
+            SetCanAfford(false);
+            allgood = false;
+        }
+    
+        if (allgood) {
+            SetCanAfford(true); 
+        }
+  
+      }
+
   return (
     <>
-        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:h-32 sm:w-80 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 shadow2'>
+        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:h-min sm:gap-2 sm:w-80 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2'>
             <p className='font-semibold text-2xl'>Subtotal</p>
             <p>{`${Total.toString()} ETH`}</p>
-            <button className='purple text-white p-2 rounded-[12px] w-full text-xl'>Buy ({CheckedCount})</button>
+            <p>{`Funds: ${funds ? funds.toString() : '0'} ETH`}</p>
+            <button className='purple text-white p-2 rounded-[12px] w-full text-xl' onClick={showlabel}>Buy ({CheckedCount})</button>
+            <p className='text-red-500 font-semibold' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
+
             <input type="text" id='userid' name='userid' hidden defaultValue={email} />
             <input type="text" id='name' name='name' hidden defaultValue={name} />
+            <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
+            <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
             <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
         </form>
 
@@ -109,12 +131,17 @@ const Cart = ({allcards, email, name}:props) => {
                 {allcards.map((card:Card_Type, index:number) => <CartItem index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} image={card.image} cardid={card.id} email={email}/>)}
             </div>
 
-            <form action={BuyAction} className='bg-gray-200 rounded-[12px] h-32 w-full flex flex-col items-center justify-between p-2 sm:hidden'>
+            <form action={BuyAction} className='bg-gray-200 rounded-[12px] h-min gap-2 w-full flex flex-col items-start justify-between p-2 sm:hidden shadow2'>
                 <p className='font-semibold text-2xl'>Subtotal</p>
                 <p>{`${Total.toString()} ETH`}</p>
-                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full text-xl'>Buy ({CheckedCount})</button>
+                <p>{`Funds: ${funds ? funds.toString() : '0'} ETH`}</p>
+                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full text-xl' onClick={showlabel}>Buy ({CheckedCount})</button>
+                <p className='text-red-500 font-semibold' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
+
                 <input type="text" id='userid' name='userid' hidden defaultValue={email} />
                 <input type="text" id='name' name='name' hidden defaultValue={name} />
+                <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
+                <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
                 <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
             </form>
 

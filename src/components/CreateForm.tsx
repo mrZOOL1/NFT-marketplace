@@ -46,12 +46,12 @@ const CreateForm = ({email, name}:props) => {
     <Card className="w-[min(350px,90%)] shadow2">
 
     <CardHeader>
-        <CardTitle>Create NFT</CardTitle>
-        <CardDescription>Create your own NFT and put it up for sale</CardDescription>
+      <CardTitle>Create NFT</CardTitle>
+      <CardDescription>Create your own NFT and put it up for sale</CardDescription>
     </CardHeader>
 
     <CardContent>
-        <form action={CreateCardAction} onSubmit={showlabel} id='createform'>
+        <form action={CreateCardAction} onSubmit={showlabel} id='createform' noValidate>
           <div className="grid w-full items-center gap-4">
               <div className="flex flex-col gap-3">
 
@@ -79,8 +79,8 @@ const CreateForm = ({email, name}:props) => {
     </CardContent>
 
     <CardFooter className="flex flex-col items-center justify-center">
-        <Button type='submit' form='createform' >Create</Button>
-        <p className='text-red-500 font-semibold mt-4' style={{display: Correct ? 'none' : ''}}>All fields are required</p>
+      <Button type='submit' form='createform' >Create</Button>
+      <p className='text-red-500 font-semibold mt-4' style={{display: Correct ? 'none' : ''}}>All fields are required</p>
     </CardFooter>
 
     </Card>
