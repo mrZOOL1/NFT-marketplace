@@ -19,7 +19,7 @@ import SignOutMobile from './SignOutMobile';
 const Nav = async () => {
 
   const session = await getServerSession(options);
-  const cartnum = await CountCartItems((session && session.user?.email) ? session.user.email : 'notsignedin');
+  const cartnum = await CountCartItems((session && session.user?.email) ? session.user.email : 'Unknown');
 
   return (
     <nav className='sticky top-0 z-10 flex items-center w-full justify-between p-4 shadow1 bg-[#424242]'>

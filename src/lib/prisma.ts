@@ -252,3 +252,15 @@ export const UpdatePrice = async function (price: string, id: string) {
     });
 }
 
+export const BuyCard = async function (id: string, userid: string, owner: string) {
+    noStore();
+    const card = await prisma.cards.update({
+        where: {
+            id
+        },
+        data: {
+            userid,
+            owner
+        }
+    });
+}

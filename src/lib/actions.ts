@@ -1,7 +1,7 @@
 "use server"
 
 import { nanoid } from "nanoid";
-import { CreateCard, DeleteCard, AddToCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice } from "./prisma"
+import { CreateCard, DeleteCard, AddToCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard } from "./prisma"
 import { redirect } from 'next/navigation';
 
 export async function CreateCardAction(FormData: FormData) {
@@ -22,7 +22,7 @@ export async function AddToCartAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
     const cardid = FormData.get('cardid') as string;
     const cartid = nanoid();
-    if (userid === 'notsignedin') {
+    if (userid === 'Unknown') {
         redirect('/api/auth/signin?callbackUrl=/');
     } else {
         await AddToCart(userid, cardid, cartid);
@@ -64,4 +64,17 @@ export async function UpdatePriceAction(FormData: FormData) {
     const newprice = FormData.get('newprice') as string;
     const cardid = FormData.get('cardid') as string;
     await UpdatePrice(newprice, cardid);
+}
+
+export async function BuyAction(FormData: FormData) {
+    const userid = FormData.get('userid') as string;
+    const name = FormData.get('name') as string;
+    const allid = FormData.get('allid') as string;
+    const IdArray = allid.split('#');
+    IdArray.forEach(async (id) => {
+        if (id !== '') {
+            await BuyCard(id, userid, name);
+            await RemoveItemFromCart(userid, id);
+        }
+    });
 }

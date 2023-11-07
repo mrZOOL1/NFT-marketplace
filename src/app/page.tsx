@@ -22,7 +22,7 @@ export default async function Home({
 
       <div className="flex flex-col items-center">
         <h1 className="text-3xl font-semibold leading-[22px] mt-4 mb-8">Featured</h1>
-        <AllCards search={search} email={(session && session.user?.email) ? session.user.email : 'notsignedin'}/>
+        <AllCards search={search} email={(session && session.user?.email) ? session.user.email : 'Unknown'}/>
       </div>
       
     </main>

@@ -3,14 +3,15 @@
 import React, {useState} from 'react';
 import CartItem from '@/components/CartItem';
 import { Card_Type } from '@/lib/types';
-import { DeleteCartItemsAction } from '@/lib/actions';
+import { DeleteCartItemsAction, BuyAction } from '@/lib/actions';
 
 interface props {
     allcards: Card_Type[];
     email:string;
+    name: string;
 }
 
-const Cart = ({allcards, email}:props) => {
+const Cart = ({allcards, email, name}:props) => {
 
     const GetDefaultTotal = function () {
         let DefaultTotal = 0;
@@ -81,11 +82,14 @@ const Cart = ({allcards, email}:props) => {
 
   return (
     <>
-        <div className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:h-32 sm:w-80 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 shadow2'>
+        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:h-32 sm:w-80 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 shadow2'>
             <p className='font-semibold text-2xl'>Subtotal</p>
             <p>{`${Total.toString()} ETH`}</p>
             <button className='purple text-white p-2 rounded-[12px] w-full text-xl'>Buy ({CheckedCount})</button>
-        </div>
+            <input type="text" id='userid' name='userid' hidden defaultValue={email} />
+            <input type="text" id='name' name='name' hidden defaultValue={name} />
+            <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
+        </form>
 
         <div className='w-full h-full  flex flex-col items-center gap-2'>
 
@@ -105,11 +109,14 @@ const Cart = ({allcards, email}:props) => {
                 {allcards.map((card:Card_Type, index:number) => <CartItem index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} image={card.image} cardid={card.id} email={email}/>)}
             </div>
 
-            <div className='bg-gray-200 rounded-[12px] h-32 w-full flex flex-col items-center justify-between p-2 sm:hidden'>
+            <form action={BuyAction} className='bg-gray-200 rounded-[12px] h-32 w-full flex flex-col items-center justify-between p-2 sm:hidden'>
                 <p className='font-semibold text-2xl'>Subtotal</p>
                 <p>{`${Total.toString()} ETH`}</p>
-                <button className='purple text-white p-2 rounded-[12px] w-full text-xl'>Buy ({CheckedCount})</button>
-            </div>
+                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full text-xl'>Buy ({CheckedCount})</button>
+                <input type="text" id='userid' name='userid' hidden defaultValue={email} />
+                <input type="text" id='name' name='name' hidden defaultValue={name} />
+                <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
+            </form>
 
         </div>
     </>
