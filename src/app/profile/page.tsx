@@ -18,7 +18,7 @@ const page = () => {
         </Link>
 
 
-        <Link href='/profile/cards' className='flex flex-col items-center gap-2'>
+        <Link href='/profile/nfts' className='flex flex-col items-center gap-2'>
 
             <p className='font-semibold text-xl'>NFTs</p>
 
