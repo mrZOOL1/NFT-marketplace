@@ -2,7 +2,7 @@
 
 import { nanoid } from "nanoid";
 import { redirect } from 'next/navigation';
-import { CreateCard, DeleteCard, AddToCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard, AddFunds, DecreaseFunds } from "./prisma"
+import { CreateCard, DeleteCard, AddToCart, ReadCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard, AddFunds, DecreaseFunds } from "./prisma"
 
 export async function CreateCardAction(FormData: FormData) {
     const id = nanoid();
@@ -25,7 +25,16 @@ export async function AddToCartAction(FormData: FormData) {
     if (userid === 'Unknown') {
         redirect('/api/auth/signin?callbackUrl=/');
     } else {
-        await AddToCart(userid, cardid, cartid);
+        const cartitems = await ReadCart(userid);
+        let exists = false;
+        cartitems.forEach(item => {
+            if (item.cardid === cardid) {
+                exists = true;
+            }
+        });
+        if (!exists) {
+            await AddToCart(userid, cardid, cartid);
+        }
     }
 }
 

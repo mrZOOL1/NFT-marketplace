@@ -99,11 +99,17 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
   return (
     <>
-        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:h-min sm:gap-2 sm:w-80 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2'>
-            <p className='font-semibold text-2xl'>Subtotal</p>
-            <p>{`${Total.toString()} ETH`}</p>
-            <p>{`Funds: ${funds ? funds.toString() : '0'} ETH`}</p>
-            <button className='purple text-white p-2 rounded-[12px] w-full text-xl' onClick={showlabel}>Buy ({CheckedCount})</button>
+        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2'>
+            
+            <p className='font-semibold text-2xl'>Summary</p>
+
+            <div className='grid grid-cols-2 grid-rows-2'>
+                <p>Total:</p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
+                <p>Funds:</p>  <p className='break-all'>{`ETH ${funds ? funds.toString() : '0'}`}</p>
+            </div>
+
+            <button className='purple text-white p-2 rounded-[12px] w-72 text-xl self-center' onClick={showlabel}>Buy ({CheckedCount})</button>
+
             <p className='text-red-500 font-semibold' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
 
             <input type="text" id='userid' name='userid' hidden defaultValue={email} />
@@ -111,6 +117,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
             <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
             <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
             <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
+
         </form>
 
         <div className='w-full h-full  flex flex-col items-center gap-2'>
@@ -132,10 +139,17 @@ const Cart = ({allcards, email, name, funds}:props) => {
             </div>
 
             <form action={BuyAction} className='bg-gray-200 rounded-[12px] h-min gap-2 w-full flex flex-col items-start justify-between p-2 sm:hidden shadow2'>
-                <p className='font-semibold text-2xl'>Subtotal</p>
-                <p>{`${Total.toString()} ETH`}</p>
-                <p>{`Funds: ${funds ? funds.toString() : '0'} ETH`}</p>
-                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full text-xl' onClick={showlabel}>Buy ({CheckedCount})</button>
+                
+                <p className='font-semibold text-2xl'>Summary</p>
+
+                <div className='grid grid-cols-2 grid-rows-2'>
+                    <p>Total: </p>  <p className='break-all'>{`${Total.toString()} ETH`}</p>
+                    <p>Funds: </p>  <p className='break-all'>{`${funds ? funds.toString() : '0'} ETH`}</p>
+                </div>
+
+
+                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full self-center text-xl' onClick={showlabel}>Buy ({CheckedCount})</button>
+                
                 <p className='text-red-500 font-semibold' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
 
                 <input type="text" id='userid' name='userid' hidden defaultValue={email} />
@@ -143,6 +157,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
                 <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
                 <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
+
             </form>
 
         </div>
