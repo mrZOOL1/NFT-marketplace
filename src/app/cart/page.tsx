@@ -15,6 +15,8 @@ const page = async () => {
     redirect('/api/auth/signin?callbackUrl=/');
   }
 
+  
+
   const cartitems = await ReadCart(session.user!.email!);
   const allcards = await GetCardsFromCartitems(cartitems);
   const funds = await GetFunds(session.user!.email!);

@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { GetCardById,GetLikesById, IsLiked } from '@/lib/prisma'
-import OpenedBuyNow from '@/components/OpenedBuyNow'
+import BuyNow from '@/components/BuyNow'
 import { getServerSession } from 'next-auth';
 import {options} from '@/app/api/auth/[...nextauth]/options'
 import { redirect } from 'next/navigation';
@@ -18,7 +18,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   }
 
   const card = await GetCardById(params.id);
-  const mycard = card?.userid === session.user!.email!;
+  const mycard = card!.userid === session.user!.email!;
   const num = await GetLikesById(params.id);
   const isliked = await IsLiked(params.id,session.user!.email!);
 
@@ -46,7 +46,7 @@ const page = async ({ params }: { params: { id: string } }) => {
         </div>
 
         <div className='h-10 w-full items-center justify-start flex relative'>
-          <OpenedBuyNow id={params.id} mycard={mycard} email={session.user!.email!} price={card!.price}/>
+          <BuyNow id={params.id} mycard={mycard} email={session.user!.email!} price={card!.price}/>
         </div>
 
       </div>

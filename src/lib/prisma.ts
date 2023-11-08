@@ -153,7 +153,6 @@ export const GetCardsFromCartitems = async function (cartitems: Cart_Type[]) {
 
 export const RemoveItemFromCart = async function (userid: string, cardid: string) {
     noStore();
-    console.log(userid, cardid);
     await prisma.carts.deleteMany({
         where: {
             userid,

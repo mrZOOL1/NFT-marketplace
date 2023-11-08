@@ -95,17 +95,17 @@ const Cart = ({allcards, email, name, funds}:props) => {
             SetCanAfford(true); 
         }
   
-      }
+    }
 
   return (
     <>
-        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2'>
+        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:max-w-[300px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2'>
             
             <p className='font-semibold text-2xl'>Summary</p>
 
             <div className='grid grid-cols-2 grid-rows-2'>
-                <p>Total:</p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
-                <p>Funds:</p>  <p className='break-all'>{`ETH ${funds ? funds.toString() : '0'}`}</p>
+                <p>Total: </p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
+                <p>Funds: </p>  <p className='break-all'>{`ETH ${funds ? funds.toString() : '0'}`}</p>
             </div>
 
             <button className='purple text-white p-2 rounded-[12px] w-72 text-xl self-center' onClick={showlabel}>Buy ({CheckedCount})</button>
@@ -143,8 +143,8 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 <p className='font-semibold text-2xl'>Summary</p>
 
                 <div className='grid grid-cols-2 grid-rows-2'>
-                    <p>Total: </p>  <p className='break-all'>{`${Total.toString()} ETH`}</p>
-                    <p>Funds: </p>  <p className='break-all'>{`${funds ? funds.toString() : '0'} ETH`}</p>
+                    <p>Total: </p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
+                    <p>Funds: </p>  <p className='break-all'>{`ETH ${funds ? funds.toString() : '0'}`}</p>
                 </div>
 
 

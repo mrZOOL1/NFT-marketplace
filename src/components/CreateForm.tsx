@@ -17,11 +17,13 @@ import {
 interface props {
   email: string;
   name: string | null | undefined;
+  cardtitles: string[];
 }
 
-const CreateForm = ({email, name}:props) => {
+const CreateForm = ({email, name, cardtitles}:props) => {
 
     const [Correct, SetCorrect] = useState(true);
+    const [DifferentName, SetDifferentName] = useState(true);
 
     const showlabel = function () {
   
@@ -35,9 +37,15 @@ const CreateForm = ({email, name}:props) => {
         SetCorrect(false);
         allgood = false;
       }
+
+      if (cardtitles.includes(title.value.toString())) {
+        SetDifferentName(false);
+        allgood = false;
+      }
   
       if (allgood) {
         SetCorrect(true); 
+        SetDifferentName(true);
       }
 
     }
@@ -81,6 +89,7 @@ const CreateForm = ({email, name}:props) => {
     <CardFooter className="flex flex-col items-center justify-center">
       <Button type='submit' form='createform' >Create</Button>
       <p className='text-red-500 font-semibold mt-4' style={{display: Correct ? 'none' : ''}}>All fields are required</p>
+      <p className='text-red-500 font-semibold mt-4' style={{display: DifferentName ? 'none' : ''}}>You already use this title</p>
     </CardFooter>
 
     </Card>

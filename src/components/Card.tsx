@@ -28,10 +28,6 @@ const Card = ({id, userid, title, price, image, owner, email}: Card_Type) => {
 
       </Link>
 
-      <div className='h-8 absolute w-full bottom-0 items-center justify-start flex'>
-        <BuyNow id={id} mycard={mycard} email={email} price={price}/>
-      </div>
-
     </div>
   )
 }

@@ -2,7 +2,7 @@
 
 import { nanoid } from "nanoid";
 import { redirect } from 'next/navigation';
-import { CreateCard, DeleteCard, AddToCart, ReadCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard, AddFunds, DecreaseFunds } from "./prisma"
+import { CreateCard, FilterCardsByUserId, DeleteCard, AddToCart, ReadCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard, AddFunds, DecreaseFunds } from "./prisma"
 
 export async function CreateCardAction(FormData: FormData) {
     const id = nanoid();
@@ -12,8 +12,11 @@ export async function CreateCardAction(FormData: FormData) {
     const price = FormData.get('price') as string;
     const image = FormData.get('image') as File | null;
 
+    const mycards = await FilterCardsByUserId(userid);
+    const cardtitles = mycards.map(card => card.title);
+
     const IsImage = image?.type === ('image/png' || 'image/jpg' || 'image/jpeg')
-    if (title !== '' && price !== '' && IsImage) {
+    if (title !== '' && price !== '' && IsImage && !cardtitles.includes(title)) {
         await CreateCard(id, userid, owner, title, price, image);
     }
 }
@@ -59,8 +62,10 @@ export async function DeleteCartItemsAction(FormData: FormData) {
     const IdToDelete = FormData.get('IdToDelete') as string;
     const IdToDeleteArray = IdToDelete.split('#');
     IdToDeleteArray.forEach(async (id) => {
-        await RemoveItemFromCart(userid, id);
+        // await RemoveItemFromCart(userid, id);
+        console.log(id);
     });
+    console.log('---------------------');
 }
 
 export async function DeleteCartItemAction(FormData: FormData) {
