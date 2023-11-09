@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { unstable_noStore as noStore } from 'next/cache';
 import { Card_Type, Cart_Type } from './types';
 import { nanoid } from 'nanoid';
@@ -276,7 +276,7 @@ export const GetFunds = async function (email: string) {
     return user?.money;
 }
 
-export const AddFunds = async function (email: string, money: number) {
+export const AddFunds = async function (email: string, money: Decimal) {
     noStore();
 
     const funds = await GetFunds(email);
@@ -288,7 +288,7 @@ export const AddFunds = async function (email: string, money: number) {
                 email
             },
             data: {
-                money: funds.plus(money)
+                money: Decimal.add(money, funds)
             }
         });
 

@@ -12,18 +12,19 @@ export async function CreateCardAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
     const owner = FormData.get('owner') as string;
     const title = FormData.get('title') as string;
-    const price = FormData.get('price') as string;
     const image = FormData.get('image') as File | null;
+    const price = FormData.get('price') as string;
+    const decimalprice = new Decimal(parseFloat(price));
 
     const mycards = await FilterCardsByUserId(userid);
     const cardtitles = mycards.map(card => card.title);
 
     const IsImage = image?.type === ('image/png' || 'image/jpg' || 'image/jpeg')
-    if (title !== '' && price !== '' && IsImage && !cardtitles.includes(title)) {
+    if (price.length <= 4 && title !== '' && price !== '' && IsImage && !cardtitles.includes(title) && decimalprice.lessThanOrEqualTo(9999) && decimalprice.greaterThanOrEqualTo(0.01)) {
         await CreateCard(id, userid, owner, title, price, image);
+        await revalidatePath('/profile/nfts');
+        await redirect('/profile/nfts');
     }
-    await revalidatePath('/profile/nfts');
-    await redirect('/profile/nfts');
 }
 
 export async function AddToCartAction(FormData: FormData) {
@@ -84,9 +85,14 @@ export async function DeleteCartItemAction(FormData: FormData) {
 }
 
 export async function UpdatePriceAction(FormData: FormData) {
+
     const newprice = FormData.get('newprice') as string;
     const cardid = FormData.get('cardid') as string;
-    if (parseFloat(newprice) >= 0.001 && parseFloat(newprice) <= 9999) {
+    const sameprice = FormData.get('sameprice') as string;
+    const decimalnewprice = new Decimal(newprice);
+    const decimalsameprice = new Decimal(sameprice);
+
+    if (newprice.length <= 4 && decimalnewprice.greaterThanOrEqualTo(0.001) && decimalnewprice.lessThanOrEqualTo(9999) && !(decimalnewprice.equals(decimalsameprice))) {
         await UpdatePrice(newprice, cardid);
         await revalidatePath('/profile/nfts');
         await redirect('/profile/nfts');
@@ -99,11 +105,11 @@ export async function BuyAction(FormData: FormData) {
     const allid = FormData.get('allid') as string;
     const totalstring = FormData.get('total') as string;
     const fundsstring = FormData.get('funds') as string;
-    const total = parseFloat(totalstring)
-    const funds = parseFloat(fundsstring)
+    const funds = new Decimal(parseFloat(fundsstring));
+    const total = new Decimal(parseFloat(totalstring));
     const IdArray = allid.split('#');
 
-    if (funds >= total) {
+    if (funds.greaterThanOrEqualTo(total)) {
         IdArray.forEach(async (id) => {
             if (id !== '') {
                 await BuyCard(id, userid, name);
@@ -112,16 +118,15 @@ export async function BuyAction(FormData: FormData) {
         });
         const money = Decimal.sub(funds, total)
         await DecreaseFunds(userid, money);
+        await revalidatePath('/cart');
     }
-
-    await revalidatePath('/cart');
 }
 
 export async function AddFundsAction(FormData: FormData) {
     const email = FormData.get('email') as string;
     const input = FormData.get('money') as string;
-    const money = parseFloat(input);
-    if (money >= 0.01 && money <= 1000) {
+    const money = new Decimal(parseFloat(input));
+    if (money.greaterThanOrEqualTo(0.01) && money.lessThanOrEqualTo(1000) && input.length <= 4) {
         await AddFunds(email, money);
         await revalidatePath('/profile/wallet');
     }

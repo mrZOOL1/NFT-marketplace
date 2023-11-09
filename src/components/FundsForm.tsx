@@ -23,8 +23,12 @@ interface props {
 const CreateForm = ({email, funds}:props) => {
 
   const [Range, SetRange] = useState(true);
+  const [Decimal, SetDecimal] = useState(true);
 
   const showlabel = function () {
+    
+    SetRange(true);
+    SetDecimal(true);
 
     const funds = document.querySelector('input[name="money"]') as HTMLInputElement;
     SetRange(true);
@@ -36,8 +40,14 @@ const CreateForm = ({email, funds}:props) => {
       allgood = false;
     }
 
+    else if (funds.value.toString().length > 4) {
+      SetDecimal(false);
+      allgood = false;
+    }
+
     if (allgood) {
       SetRange(true); 
+      SetDecimal(true);
     }
 
   }
@@ -69,7 +79,8 @@ const CreateForm = ({email, funds}:props) => {
 
     <CardFooter className="flex flex-col items-center justify-center">
       <Button type='submit' form='createform' >Add Funds</Button>
-      <p className='text-red-500 font-semibold mt-4' style={{display: Range ? 'none' : ''}}>Amount must be between 0.01 and 1000</p>
+      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Amount must be between 0.01 and 1000</p>
+      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Decimal ? 'none' : ''}}>Maximum 2 decimal digits</p>
     </CardFooter>
 
     </Card>

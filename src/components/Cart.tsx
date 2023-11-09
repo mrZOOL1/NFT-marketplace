@@ -4,7 +4,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import CartItem from '@/components/CartItem';
 import { Card_Type } from '@/lib/types';
 import { DeleteCartItemsAction, BuyAction } from '@/lib/actions';
-import {Decimal} from 'decimal.js';
+import { Decimal } from 'decimal.js';
 
 interface props {
     allcards: Card_Type[];
@@ -33,6 +33,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
     const [Total, SetTotal] = useState(GetDefaultTotal());
     const [CheckedCount, SetCheckedCount] = useState(allcards.length);
+    const [CanAfford, SetCanAfford] = useState(true);
     const IdToDelete = useRef(GetDefaultIdArray());
 
     const CheckHandler = function (price:number, index: number, cardid:string) {
@@ -82,12 +83,12 @@ const Cart = ({allcards, email, name, funds}:props) => {
         }
     }
 
-    const [CanAfford, SetCanAfford] = useState(true);
     const showlabel = function () {
-  
+
         let allgood = true;
-  
-        if (!(funds && funds.greaterThanOrEqualTo(Total))) {
+        SetCanAfford(true);
+
+        if (!(funds && parseFloat(funds.toString()) >= Total)) {
             SetCanAfford(false);
             allgood = false;
         }
@@ -105,7 +106,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
   return (
     <>
-        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:max-w-[300px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2'>
+        <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:max-w-[300px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2' onSubmit={showlabel}>
             
             <p className='font-semibold text-2xl'>Summary</p>
 
@@ -114,9 +115,9 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 <p>Funds: </p>  <p className='break-all'>{`ETH ${funds ? funds.toString() : '0'}`}</p>
             </div>
 
-            <button className='purple text-white p-2 rounded-[12px] w-72 text-xl self-center' onClick={showlabel}>Buy ({CheckedCount})</button>
+            <button className='purple text-white p-2 rounded-[12px] w-72 text-xl self-center'>Buy ({CheckedCount})</button>
 
-            <p className='text-red-500 font-semibold' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
+            <p className='text-red-500 font-semibold w-full text-center' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
 
             <input type="text" id='userid' name='userid' hidden defaultValue={email} />
             <input type="text" id='name' name='name' hidden defaultValue={name} />
@@ -144,7 +145,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 {allcards.map((card:Card_Type, index:number) => <CartItem index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} image={card.image} cardid={card.id} email={email}/>)}
             </div>
 
-            <form action={BuyAction} className='bg-gray-200 rounded-[12px] h-min gap-2 w-full flex flex-col items-start justify-between p-2 sm:hidden shadow2'>
+            <form action={BuyAction} className='bg-gray-200 rounded-[12px] h-min gap-2 w-full flex flex-col items-start justify-between p-2 sm:hidden shadow2' onSubmit={showlabel}>
                 
                 <p className='font-semibold text-2xl'>Summary</p>
 
@@ -154,9 +155,9 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 </div>
 
 
-                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full self-center text-xl' onClick={showlabel}>Buy ({CheckedCount})</button>
+                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full self-center text-xl'>Buy ({CheckedCount})</button>
                 
-                <p className='text-red-500 font-semibold' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
+                <p className='text-red-500 font-semibold w-full text-center' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
 
                 <input type="text" id='userid' name='userid' hidden defaultValue={email} />
                 <input type="text" id='name' name='name' hidden defaultValue={name} />

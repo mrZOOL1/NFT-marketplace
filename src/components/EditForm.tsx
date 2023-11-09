@@ -16,16 +16,21 @@ import {
 import { usePathname } from 'next/navigation';
 
 interface props {
-    oldprice: string;
+  oldprice: string;
 }
 
 const EditForm = ({oldprice}:props) => {
 
     const [Range, SetRange] = useState(true);
     const [Different, SetDifferent] = useState(true);
+    const [Decimal, SetDecimal] = useState(true);
     const path = usePathname();
 
     const showlabel = function () {
+
+      SetRange(true);
+      SetDifferent(true);
+      SetDecimal(true);
   
       const newprice = document.querySelector('input[name="newprice"]') as HTMLInputElement;
       SetRange(true);
@@ -38,14 +43,20 @@ const EditForm = ({oldprice}:props) => {
         allgood = false;
       }
 
-      if (newprice.value.toString() === oldprice) {
+      else if (newprice.value.toString() === oldprice) {
         SetDifferent(false);
+        allgood = false;
+      }
+
+      else if (newprice.value.toString().length > 4) {
+        SetDecimal(false);
         allgood = false;
       }
   
       if (allgood) {
         SetRange(true); 
         SetDifferent(true);
+        SetDecimal(true);
       }
 
     }
@@ -66,6 +77,7 @@ const EditForm = ({oldprice}:props) => {
                         <Label htmlFor="newprice">New Price</Label>
                         <Input type='number' step='any' id="newprice" name='newprice' placeholder={oldprice} autoComplete="off"/>
                         <input type="text" id="cardid" name='cardid' hidden defaultValue={path.toString().substring(path.length - 21)} />
+                        <input type="text" id="sameprice" name='sameprice' hidden defaultValue={oldprice} />
                     </div>
                 </div>
             </div>
@@ -76,6 +88,7 @@ const EditForm = ({oldprice}:props) => {
       <Button type='submit' form='createform' >Edit</Button>
       <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Price must be between 0.001 and 9999</p>
       <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Different ? 'none' : ''}}>Price must be different</p>
+      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Decimal ? 'none' : ''}}>Maximum 2 decimal digits</p>
     </CardFooter>
 
     </Card>
