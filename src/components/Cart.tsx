@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import CartItem from '@/components/CartItem';
 import { Card_Type } from '@/lib/types';
 import { DeleteCartItemsAction, BuyAction } from '@/lib/actions';
@@ -32,7 +32,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
     const [Total, SetTotal] = useState(GetDefaultTotal());
     const [CheckedCount, SetCheckedCount] = useState(allcards.length);
-    const [IdToDelete, SetIdToDelete] = useState(GetDefaultIdArray());
+    const IdToDelete = useRef(GetDefaultIdArray());
 
     const CheckHandler = function (price:number, index: number, cardid:string) {
         const boxes = document.querySelectorAll('#checkbox') as NodeListOf<HTMLInputElement>;
@@ -40,12 +40,12 @@ const Cart = ({allcards, email, name, funds}:props) => {
             boxes[index].checked = false;
             SetTotal(old => old - price);
             SetCheckedCount(old => old - 1);
-            SetIdToDelete(old => old.filter(id => id !== cardid));
+            IdToDelete.current = IdToDelete.current.filter(id => id !== cardid);
         } else {
             boxes[index].checked = true;
             SetTotal(old => old + price);
             SetCheckedCount(old => old + 1);
-            SetIdToDelete(old => [...old, cardid]);
+            IdToDelete.current = [...IdToDelete.current, cardid];
         }
     }
 
@@ -66,7 +66,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
             SetCheckedCount(0);
             SetTotal(0);
-            SetIdToDelete([]);
+            IdToDelete.current = [];
 
         } else {
 
@@ -76,7 +76,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
             SetCheckedCount(allcards.length);
             SetTotal(GetDefaultTotal());
-            SetIdToDelete(GetDefaultIdArray());
+            IdToDelete.current = GetDefaultIdArray();
 
         }
     }
@@ -97,6 +97,12 @@ const Cart = ({allcards, email, name, funds}:props) => {
   
     }
 
+    //manually update the input value, else a page refresh is needed to work
+    useEffect(() => {
+        const input = document.querySelector('#idtodelete') as HTMLInputElement;
+        input.value = IdToDelete.current.join('#');
+    }, [CheckedCount]);
+
   return (
     <>
         <form action={BuyAction} className='hidden sm:bg-gray-200 sm:rounded-[12px] sm:max-w-[300px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2'>
@@ -116,7 +122,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
             <input type="text" id='name' name='name' hidden defaultValue={name} />
             <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
             <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
-            <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
+            <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.current.join('#')} />
 
         </form>
 
@@ -128,8 +134,8 @@ const Cart = ({allcards, email, name, funds}:props) => {
                     <button onClick={SelectAll}>Select all items</button>
                     <form action={DeleteCartItemsAction}>
                         <button type='submit'>Delete selected items</button>
-                        <input type="text" name='userid' hidden defaultValue={email}/>
-                        <input type="text" name='IdToDelete' hidden defaultValue={IdToDelete.join('#')}/>
+                        <input type="text" name='userid' id='userid' hidden defaultValue={email}/>
+                        <input type="text" name='idtodelete' id='idtodelete' hidden defaultValue={IdToDelete.current.join('#')}/>
                     </form>
                 </div>
             </div>
@@ -156,7 +162,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 <input type="text" id='name' name='name' hidden defaultValue={name} />
                 <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
                 <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
-                <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.join('#')} />
+                <input type="text" id='allid' name='allid' hidden defaultValue={IdToDelete.current.join('#')} />
 
             </form>
 

@@ -59,13 +59,11 @@ export async function ToggleLikeAction(FormData: FormData) {
 
 export async function DeleteCartItemsAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
-    const IdToDelete = FormData.get('IdToDelete') as string;
+    const IdToDelete = FormData.get('idtodelete') as string;
     const IdToDeleteArray = IdToDelete.split('#');
     IdToDeleteArray.forEach(async (id) => {
-        // await RemoveItemFromCart(userid, id);
-        console.log(id);
+        await RemoveItemFromCart(userid, id);
     });
-    console.log('---------------------');
 }
 
 export async function DeleteCartItemAction(FormData: FormData) {

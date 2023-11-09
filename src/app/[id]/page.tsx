@@ -21,13 +21,14 @@ const page = async ({ params }: { params: { id: string } }) => {
   const mycard = card!.userid === session.user!.email!;
   const num = await GetLikesById(params.id);
   const isliked = await IsLiked(params.id,session.user!.email!);
+  const message = mycard ? 'you' : (card?.owner ? card.owner : 'Unknown') ;
 
   return (
     <main className='flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] py-4'>
 
       <div className='flex flex-col items-center mb-4'>
         <h1 className='font-semibold text-4xl text-center'>{card?.title}</h1>
-        <p className='text-center'>Owned by {card?.owner}</p>
+        <p className='text-center'>Owned by {message}</p>
       </div>
 
       <div className=' rounded-[12px] w-[min(500px,90%)] shadow2'>
