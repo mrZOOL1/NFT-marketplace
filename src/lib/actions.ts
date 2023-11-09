@@ -2,6 +2,9 @@
 
 import { nanoid } from "nanoid";
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import { Decimal } from 'decimal.js';
+
 import { CreateCard, FilterCardsByUserId, DeleteCard, AddToCart, ReadCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard, AddFunds, DecreaseFunds } from "./prisma"
 
 export async function CreateCardAction(FormData: FormData) {
@@ -19,6 +22,8 @@ export async function CreateCardAction(FormData: FormData) {
     if (title !== '' && price !== '' && IsImage && !cardtitles.includes(title)) {
         await CreateCard(id, userid, owner, title, price, image);
     }
+    await revalidatePath('/profile/nfts');
+    await redirect('/profile/nfts');
 }
 
 export async function AddToCartAction(FormData: FormData) {
@@ -39,11 +44,14 @@ export async function AddToCartAction(FormData: FormData) {
             await AddToCart(userid, cardid, cartid);
         }
     }
+    await revalidatePath('/', 'layout');
 }
 
 export async function DeleteCardAction(FormData: FormData) {
     const cardid = FormData.get('cardid') as string;
     await DeleteCard(cardid);
+    await revalidatePath('/profile/nfts');
+    await redirect('/profile/nfts');
 }
 
 export async function ToggleLikeAction(FormData: FormData) {
@@ -55,6 +63,7 @@ export async function ToggleLikeAction(FormData: FormData) {
     } else {
         await AddLike(cardid, userid);
     }
+    await revalidatePath(`/${cardid}`);
 }
 
 export async function DeleteCartItemsAction(FormData: FormData) {
@@ -64,18 +73,24 @@ export async function DeleteCartItemsAction(FormData: FormData) {
     IdToDeleteArray.forEach(async (id) => {
         await RemoveItemFromCart(userid, id);
     });
+    await revalidatePath('/cart');
 }
 
 export async function DeleteCartItemAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
     const cardid = FormData.get('cardid') as string;
     await RemoveItemFromCart(userid, cardid);
+    await revalidatePath('/cart');
 }
 
 export async function UpdatePriceAction(FormData: FormData) {
     const newprice = FormData.get('newprice') as string;
     const cardid = FormData.get('cardid') as string;
-    await UpdatePrice(newprice, cardid);
+    if (parseFloat(newprice) >= 0.001 && parseFloat(newprice) <= 9999) {
+        await UpdatePrice(newprice, cardid);
+        await revalidatePath('/profile/nfts');
+        await redirect('/profile/nfts');
+    }
 }
 
 export async function BuyAction(FormData: FormData) {
@@ -95,14 +110,19 @@ export async function BuyAction(FormData: FormData) {
                 await RemoveItemFromCart(userid, id);
             }
         });
-        DecreaseFunds(userid, funds - total);
+        const money = Decimal.sub(funds, total)
+        await DecreaseFunds(userid, money);
     }
+
+    await revalidatePath('/cart');
 }
 
 export async function AddFundsAction(FormData: FormData) {
     const email = FormData.get('email') as string;
     const input = FormData.get('money') as string;
     const money = parseFloat(input);
-    await AddFunds(email, money);
+    if (money >= 0.01 && money <= 1000) {
+        await AddFunds(email, money);
+        await revalidatePath('/profile/wallet');
+    }
 }
-

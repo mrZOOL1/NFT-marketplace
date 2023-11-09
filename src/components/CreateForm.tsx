@@ -12,7 +12,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
 interface props {
   email: string;
@@ -21,7 +21,6 @@ interface props {
 }
 
 const CreateForm = ({email, name, cardtitles}:props) => {
-
     const [Correct, SetCorrect] = useState(true);
     const [DifferentName, SetDifferentName] = useState(true);
 

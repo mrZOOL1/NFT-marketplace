@@ -3,7 +3,7 @@
 import React from 'react'
 import { ShoppingCart,Trash2 } from 'lucide-react'
 import { AddToCartAction,DeleteCardAction } from '@/lib/actions'
-import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import Link from 'next/link';
 
 interface props {
@@ -15,7 +15,6 @@ interface props {
 
 const BuyNow = ({id, mycard, email, price}: props) => {
 
-    const router = useRouter();
     const path = usePathname();
     const IsView = path === '/profile/nfts' || mycard;
     const searchParams = useSearchParams();
@@ -28,7 +27,7 @@ const BuyNow = ({id, mycard, email, price}: props) => {
             <p className='text-white text-lg'>{IsView ? 'Edit price' : 'Buy now'}</p>
         </Link>
 
-        <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] purple absolute right-0 h-full w-2/12 flex items-center justify-center rounded-br-[8px] rounded-tr-[8px]' onSubmit={() => IsView && router.push('/profile/nfts')}>
+        <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] purple absolute right-0 h-full w-2/12 flex items-center justify-center rounded-br-[8px] rounded-tr-[8px]'>
             <button className='w-full flex justify-center items-center' type='submit' form='addcart'>
             {IsView ? <Trash2 color="white"/> : <ShoppingCart color="white"/>}
             </button>

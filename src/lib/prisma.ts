@@ -1,7 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { unstable_noStore as noStore } from 'next/cache';
 import { Card_Type, Cart_Type } from './types';
 import { nanoid } from 'nanoid';
+import { Decimal } from '@prisma/client/runtime/library';
 
 
 interface CustomNodeJsGlobal {
@@ -94,6 +95,7 @@ export const FilterCardsByUserIdAndTitle = async function (userid: string, title
 }
 
 export const CreateCard = async function (id: string, userid: string, owner: string, title: string, price: string, image: any) {
+    noStore();
     const card = await prisma.cards.create({
         data: {
             id,
@@ -279,14 +281,14 @@ export const AddFunds = async function (email: string, money: number) {
 
     const funds = await GetFunds(email);
 
-    if (funds) {
+    if (funds || funds === 0) {
 
         await prisma.users.update({
             where: {
                 email
             },
             data: {
-                money: money + funds
+                money: funds.plus(money)
             }
         });
 
@@ -302,7 +304,7 @@ export const AddFunds = async function (email: string, money: number) {
     }
 }
 
-export const DecreaseFunds = async function (email: string, money: number) {
+export const DecreaseFunds = async function (email: string, money: Decimal) {
     noStore();
 
     await prisma.users.update({
@@ -310,7 +312,7 @@ export const DecreaseFunds = async function (email: string, money: number) {
             email
         },
         data: {
-            money: money
+            money
         }
     });
 }

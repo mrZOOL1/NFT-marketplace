@@ -30,6 +30,6 @@ model Likes {
 }
 
 model Users {
-  money Float
-  email String @id
+  money Decimal
+  email String  @id
 }

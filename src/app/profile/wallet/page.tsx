@@ -18,7 +18,7 @@ const page = async () => {
 
   return (
     <main className='flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] py-4'>
-      <FundsForm email={session.user!.email!} funds={funds ? funds.toString() : '0'}/>
+      <FundsForm email={session.user!.email!} funds={funds}/>
     </main>
   )
 }

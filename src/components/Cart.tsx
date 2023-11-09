@@ -4,12 +4,13 @@ import React, {useState, useRef, useEffect} from 'react';
 import CartItem from '@/components/CartItem';
 import { Card_Type } from '@/lib/types';
 import { DeleteCartItemsAction, BuyAction } from '@/lib/actions';
+import {Decimal} from 'decimal.js';
 
 interface props {
     allcards: Card_Type[];
     email:string;
     name: string;
-    funds: number | undefined;
+    funds: Decimal | undefined;
 }
 
 const Cart = ({allcards, email, name, funds}:props) => {
@@ -86,7 +87,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
   
         let allgood = true;
   
-        if (!(funds && funds >= Total)) {
+        if (!(funds && funds.greaterThanOrEqualTo(Total))) {
             SetCanAfford(false);
             allgood = false;
         }
@@ -97,7 +98,6 @@ const Cart = ({allcards, email, name, funds}:props) => {
   
     }
 
-    //manually update the input value, else a page refresh is needed to work
     useEffect(() => {
         const input = document.querySelector('#idtodelete') as HTMLInputElement;
         input.value = IdToDelete.current.join('#');

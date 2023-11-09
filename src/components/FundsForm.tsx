@@ -13,10 +13,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {Decimal} from 'decimal.js';
 
 interface props {
   email: string;
-  funds: string;
+  funds: Decimal | undefined;
 }
 
 const CreateForm = ({email, funds}:props) => {
@@ -46,7 +47,7 @@ const CreateForm = ({email, funds}:props) => {
 
     <CardHeader>
       <CardTitle>Add Funds</CardTitle>
-      <CardDescription>{`You have ${funds} ETH in your account`}</CardDescription>
+      <CardDescription>{`You have ${funds ? funds.toString() : '0'} ETH in your account`}</CardDescription>
     </CardHeader>
 
     <CardContent>
