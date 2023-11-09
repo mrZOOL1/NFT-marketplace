@@ -2,8 +2,20 @@ import React from 'react'
 import { Wallet2, Image } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { getServerSession } from 'next-auth';
+import {options} from '@/app/api/auth/[...nextauth]/options'
+import { redirect } from 'next/navigation';
 
-const page = () => {
+const page = async () => {
+
+    const session = await getServerSession(options);
+    if (!session) {
+      redirect('/api/auth/signin?callbackUrl=/');
+    }
+    if (session.user?.email === (null || undefined)) {
+      redirect('/api/auth/signin?callbackUrl=/');
+    }
+
   return (
     <div className='flex items-center justify-center min-h-[calc(100vh-5rem)] gap-6'>
         
