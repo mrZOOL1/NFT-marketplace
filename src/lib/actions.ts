@@ -131,3 +131,29 @@ export async function AddFundsAction(FormData: FormData) {
         await revalidatePath('/profile/wallet');
     }
 }
+
+export async function BuyOne(FormData: FormData) {
+    const cardid = FormData.get('cardid') as string;
+    const price = FormData.get('price') as string;
+    const owner = FormData.get('owner') as string;
+    const funds = FormData.get('funds') as string;
+    const email = FormData.get('email') as string;
+    const IsView = FormData.get('IsView') as string;
+    const params = FormData.get('params') as string;
+
+    if (IsView === 'true') {
+        await redirect(`/editprice/${cardid}?${params}`);
+    } else {
+
+        if (parseFloat(funds) >= parseFloat(price)) {
+
+            const money = Decimal.sub(parseFloat(funds), parseFloat(price))
+            await BuyCard(cardid, email, owner);
+            await DecreaseFunds(email, money.toString());
+            await revalidatePath('/profile/nfts');
+            await redirect('/profile/nfts');
+
+        }
+
+    }
+}

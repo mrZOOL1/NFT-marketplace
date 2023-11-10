@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { GetCardById,GetLikesById, IsLiked } from '@/lib/prisma'
+import { GetCardById,GetLikesById, IsLiked, GetFunds } from '@/lib/prisma'
 import BuyNow from '@/components/BuyNow'
 import { getServerSession } from 'next-auth';
 import {options} from '@/app/api/auth/[...nextauth]/options'
@@ -22,6 +22,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   const num = await GetLikesById(params.id);
   const isliked = await IsLiked(params.id,session.user!.email!);
   const message = mycard ? 'you' : (card?.owner ? card.owner : 'Unknown') ;
+  const funds = await GetFunds(session.user!.email!);
 
   return (
     <main className='flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] py-4'>
@@ -46,9 +47,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           <p className='text-2xl font-semibold'>{card?.price} ETH</p>
         </div>
 
-        <div className='h-10 w-full items-center justify-start flex relative'>
-          <BuyNow id={params.id} mycard={mycard} email={session.user!.email!} price={card!.price}/>
-        </div>
+        <BuyNow id={params.id} mycard={mycard} owner={card?.owner ? card.owner : 'Unknown'} email={session.user!.email!} price={card!.price} funds={funds ? parseFloat(funds) : 0}/>
 
       </div>
 

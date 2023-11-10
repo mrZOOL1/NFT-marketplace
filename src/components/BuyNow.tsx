@@ -1,39 +1,77 @@
 'use client';
 
-import React from 'react'
+import React, {useState} from 'react'
 import { ShoppingCart,Trash2 } from 'lucide-react'
-import { AddToCartAction,DeleteCardAction } from '@/lib/actions'
+import { AddToCartAction,DeleteCardAction, BuyOne } from '@/lib/actions'
 import { usePathname, useSearchParams } from 'next/navigation'
-import Link from 'next/link';
+
 
 interface props {
     id: string;
     email: string;
     mycard :boolean;
     price: string;
+    funds:number;
+    owner: string;
 }
 
-const BuyNow = ({id, mycard, email, price}: props) => {
+const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
 
+    const [CanAfford, SetCanAfford] = useState(true);
     const path = usePathname();
     const IsView = path === '/profile/nfts' || mycard;
     const searchParams = useSearchParams();
     const params = new URLSearchParams(searchParams);
     params.set('defaultprice', price);
 
+    const showlabel = function () {
+
+        SetCanAfford(true);
+        let allgood = true;
+    
+        if (parseFloat(price) > funds) {
+            console.log(price, funds);
+            SetCanAfford(false);
+            allgood = false;
+        }
+    
+        if (allgood) {
+            SetCanAfford(true);
+        }
+      
+    }
+
   return (
     <>
-        <Link href={IsView ? `/editprice/${id}?${params.toString()}` : '/cart'} className='purple text-white whitespace-nowrap h-full w-10/12 rounded-bl-[8px] flex items-center justify-center rounded-tl-[8px]'>
-            <p className='text-white text-lg'>{IsView ? 'Edit price' : 'Buy now'}</p>
-        </Link>
 
-        <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] purple absolute right-0 h-full w-2/12 flex items-center justify-center rounded-br-[8px] rounded-tr-[8px]'>
-            <button className='w-full flex justify-center items-center' type='submit' form='addcart'>
-            {IsView ? <Trash2 color="white"/> : <ShoppingCart color="white"/>}
-            </button>
-            <input type="text" hidden defaultValue={email} name='userid'/>
-            <input type="text" hidden defaultValue={id} name='cardid'/>
-        </form>
+        <div className='h-10 w-full flex flex-col justify-center relative'>
+                
+            <form action={BuyOne} onSubmit={showlabel} className='purple text-white whitespace-nowrap h-full w-10/12 rounded-bl-[8px] flex items-center justify-center rounded-tl-[8px]'>
+
+                <button type='submit' className='text-white text-lg w-full h-full'>{IsView ? 'Edit price' : 'Buy now'}</button>
+
+                <input type="text" hidden id='cardid' name='cardid' defaultValue={id}/>
+                <input type="text" hidden id='price' name='price' defaultValue={price}/>
+                <input type="text" hidden id='owner' name='owner' defaultValue={owner}/>
+                <input type="text" hidden id='email' name='email' defaultValue={email}/>
+                <input type="text" hidden id='funds' name='funds' defaultValue={funds}/>
+                <input type="text" hidden id='IsView' name='IsView' defaultValue={IsView.toString()}/>
+                <input type="text" hidden id='params' name='params' defaultValue={params.toString()}/>
+
+            </form>
+
+            <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] purple absolute right-0 h-full w-2/12 flex items-center justify-center rounded-br-[8px] rounded-tr-[8px]'>
+                <button className='w-full flex justify-center items-center' type='submit' form='addcart'>
+                {IsView ? <Trash2 color="white"/> : <ShoppingCart color="white"/>}
+                </button>
+                <input type="text" hidden defaultValue={email} name='userid'/>
+                <input type="text" hidden defaultValue={id} name='cardid'/>
+            </form>
+
+        </div>
+
+        <p className='text-red-500 font-semibold w-full text-center mt-2' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
+    
     </>
   )
 }
