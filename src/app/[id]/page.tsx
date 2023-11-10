@@ -25,14 +25,14 @@ const page = async ({ params }: { params: { id: string } }) => {
   const funds = await GetFunds(session.user!.email!);
 
   return (
-    <main className='flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] py-4'>
+    <main className='flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] py-4 gap-4'>
 
-      <div className='flex flex-col items-center mb-4'>
+      <div className='flex flex-col items-center'>
         <h1 className='font-semibold text-4xl text-center break-all'>{card?.title}</h1>
         <p className='text-center break-all'>Owned by {message}</p>
       </div>
 
-      <div className=' rounded-[12px] w-[min(500px,90%)] shadow2'>
+      <div className=' rounded-[12px] w-[min(500px,90%)] bg-accent glow'>
         
         <LikeButton cardid={params.id} isliked={isliked} email={session.user!.email!} likes={num}/>
 
@@ -40,10 +40,10 @@ const page = async ({ params }: { params: { id: string } }) => {
 
       </div>
 
-      <div className='bg-gray-100 rounded-[12px] mt-2 p-3 flex flex-col items-center gap-1 w-[min(500px,90%)] shadow2'>
+      <div className='bg-accent rounded-[12px] p-3 flex flex-col items-center gap-1 w-[min(500px,90%)] glow'>
 
         <div className='flex flex-col w-full items-start'>
-          <p className='text-gray-600 text-sm'>Current Price</p>
+          <p className='text-sm text-muted-foreground'>Current Price</p>
           <p className='text-2xl font-semibold'>{card?.price} ETH</p>
         </div>
 

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import Nav from '@/components/Nav';
+import { ThemeProvider } from "@/components/ThemeProvider"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,9 +24,19 @@ export default function RootLayout({
         <link rel="icon" href="/icon?<generated>" type="image/<generated>" sizes="<generated>"/>
       </head>
 
-      <body className={`${inter.className} gradient min-h-screen`}>
-        <Nav/>
-        {children}
+      <body className={`${inter.className} min-h-screen`}>
+
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
+
+          <Nav/>
+          {children}
+
+        </ThemeProvider>
+
       </body>
 
     </html>

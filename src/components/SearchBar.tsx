@@ -13,7 +13,7 @@ const SearchBar = () => {
   const pathname = usePathname();
 
   const submitHandler = function() {
-    const search = document.querySelector('input[name="search"]') as HTMLInputElement;
+    const search = document.querySelector('#search') as HTMLInputElement;
     const searchvalue = search.value.toString();
     params.set('title', searchvalue);
     replace(`${pathname}?${params.toString()}`);
@@ -26,7 +26,7 @@ const SearchBar = () => {
         <Search className='absolute ml-2' size={20}/>
       </button>
       
-      <Input placeholder='search' className='pl-8 shadow2' name='search' autoComplete='off'/>
+      <Input placeholder='search' className='pl-8 shadow2 bg-accent' name='search' id='search' autoComplete='off'/>
 
     </form>
   )

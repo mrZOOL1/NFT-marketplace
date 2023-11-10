@@ -63,7 +63,7 @@ const EditForm = ({oldprice}:props) => {
     }
 
   return (
-    <Card className="w-[min(350px,90%)] shadow2">
+    <Card className="w-[min(350px,90%)]">
 
     <CardHeader>
       <CardTitle>Edit Price</CardTitle>
@@ -76,7 +76,7 @@ const EditForm = ({oldprice}:props) => {
                 <div className="flex flex-col gap-3">
                     <div className='gap-1'>
                         <Label htmlFor="newprice">New Price</Label>
-                        <Input type='number' step='any' id="newprice" name='newprice' placeholder={oldprice} autoComplete="off"/>
+                        <Input className='bg-accent' type='number' step='any' id="newprice" name='newprice' placeholder={oldprice} autoComplete="off"/>
                         <input type="text" id="cardid" name='cardid' hidden defaultValue={path.toString().substring(path.length - 21)} />
                         <input type="text" id="sameprice" name='sameprice' hidden defaultValue={oldprice} />
                     </div>

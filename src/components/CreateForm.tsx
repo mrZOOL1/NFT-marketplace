@@ -71,7 +71,7 @@ const CreateForm = ({email, name, cardtitles}:props) => {
     }
 
   return (
-    <Card className="w-[min(350px,90%)] shadow2">
+    <Card className="w-[min(350px,90%)]">
 
     <CardHeader>
       <CardTitle>Create NFT</CardTitle>
@@ -88,17 +88,17 @@ const CreateForm = ({email, name, cardtitles}:props) => {
 
                 <div className='gap-1'>
                   <Label htmlFor="title">Title</Label>
-                  <Input id="title" name='title' autoComplete="off"/>
+                  <Input className='bg-accent' id="title" name='title' autoComplete="off"/>
                 </div>
 
                 <div className='gap-1'>
                   <Label htmlFor="price">Price (ETH)</Label>
-                  <Input id="price" name='price' type='number' autoComplete="off"/>
+                  <Input className='bg-accent' id="price" name='price' type='number' autoComplete="off"/>
                 </div>
 
                 <div className='gap-1'>
                   <Label htmlFor="image">Image</Label>
-                  <Input id="image" name='image' type="file" accept="image/png, image/jpg, image/jpeg"/>
+                  <Input className='bg-accent' id="image" name='image' type="file" accept="image/png, image/jpg, image/jpeg"/>
                 </div>
 
               </div>

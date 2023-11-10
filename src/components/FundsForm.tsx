@@ -57,7 +57,7 @@ const CreateForm = ({email, funds}:props) => {
   }
 
   return (
-    <Card className="w-[min(350px,90%)] shadow2">
+    <Card className="w-[min(350px,90%)]">
 
     <CardHeader>
       <CardTitle>Add Funds</CardTitle>
@@ -73,7 +73,7 @@ const CreateForm = ({email, funds}:props) => {
 
             <div className='gap-1'>
               <Label htmlFor="money">Amount</Label>
-              <Input type='number' id="money" name='money' autoComplete="off"/>
+              <Input className='bg-accent' type='number' id="money" name='money' autoComplete="off"/>
             </div>
 
             </div>

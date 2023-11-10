@@ -3,6 +3,7 @@
 import React, {useState, useRef, useEffect} from 'react'
 import Image from 'next/image';
 import { ToggleLikeAction } from '@/lib/actions';
+import { useTheme } from 'next-themes'
 
 interface props {
   cardid: string;
@@ -14,6 +15,7 @@ interface props {
 const Heart = ({cardid, isliked, email, ChangeNum}:props) => {
   const [IsLikedState, SetIsLikedState] = useState(isliked);
   const IsLiked = useRef(isliked);
+  const {theme} = useTheme();
 
   const SubmitHandler = function () {
     SetIsLikedState(old => !old);
@@ -29,7 +31,7 @@ const Heart = ({cardid, isliked, email, ChangeNum}:props) => {
   return (
     <form action={ToggleLikeAction} className='w-[26px] h-[26px]' onSubmit={SubmitHandler}>
       <button type='submit'>
-        {IsLiked.current ? <Image src='/images/filled-heart.svg' alt='red heart' width={26} height={26}/> : <Image src='/images/heart.svg' alt='heart' width={26} height={26}/>}
+        {IsLiked.current ? <Image src='/images/filled-heart.svg' alt='red heart' width={26} height={26}/> : <Image src={theme === 'light' ? '/images/heart-light.svg' : '/images/heart-dark.svg'} alt='heart' width={26} height={26}/>}
       </button>
       <input type="text" hidden defaultValue={email} name='userid' id='userid'/>
       <input type="text" hidden defaultValue={cardid} name='cardid' id='cardid'/>

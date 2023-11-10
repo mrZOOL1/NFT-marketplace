@@ -22,18 +22,22 @@ const CartItem = ({title, price, image, CheckHandler, index, cardid, email}:prop
   }   
 
   return (
-    <div className='h-32 flex items-center gap-4'>
+    <div className='h-32 flex items-center justify-between px-2'>
 
-      <input className='h-4 w-4' defaultChecked={true} type="checkbox" name="cart-checkbox" id="checkbox" onClick={() => clickhandler()}/>
+      <div className='flex gap-4 items-center'>
 
-      <Image src='/images/blank.png' alt='nft' width={100} height={100}/>
+        <input className='h-4 w-4' defaultChecked={true} type="checkbox" name="cart-checkbox" id="checkbox" onClick={() => clickhandler()}/>
 
-      <div className='flex flex-col'>
-        <p>{title}</p>
-        <p id='price'>{price+' ETH'}</p>
+        <Image src='/images/blank.png' alt='nft' width={100} height={100}/>
+
+        <div className='flex'>
+          <p>{title}</p>
+          <p id='price'>{`${price} ETH`}</p>
+        </div>
+
       </div>
 
-      <form action={DeleteCartItemAction} className='flex justify-end w-full mr-2'>
+      <form action={DeleteCartItemAction}>
         <input type="text" name='userid' hidden defaultValue={email}/>
         <input type="text" name='cardid' hidden defaultValue={cardid}/>
         <button type='submit'>

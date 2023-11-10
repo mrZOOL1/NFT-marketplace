@@ -4,6 +4,7 @@ import React, {useState} from 'react'
 import { ShoppingCart,Trash2 } from 'lucide-react'
 import { AddToCartAction,DeleteCardAction, BuyOne } from '@/lib/actions'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { Button } from './ui/button';
 
 
 interface props {
@@ -50,9 +51,9 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
 
         <div className='h-10 w-full flex flex-col justify-center relative'>
                 
-            <form action={BuyOne} onSubmit={showlabel} className='purple text-white whitespace-nowrap h-full w-10/12 rounded-bl-[8px] flex items-center justify-center rounded-tl-[8px]'>
+            <form action={BuyOne} onSubmit={showlabel} className='whitespace-nowrap h-full w-10/12 flex items-center justify-center'>
 
-                <button type='submit' className='text-white text-lg w-full h-full'>{IsView ? 'Edit price' : 'Buy now'}</button>
+                <Button type='submit' className='rounded-tr-none rounded-br-none text-lg w-full h-full'>{IsView ? 'Edit price' : 'Buy now'}</Button>
 
                 <input type="text" hidden id='cardid' name='cardid' defaultValue={id}/>
                 <input type="text" hidden id='price' name='price' defaultValue={price}/>
@@ -64,10 +65,10 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
 
             </form>
 
-            <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] purple absolute right-0 h-full w-2/12 flex items-center justify-center rounded-br-[8px] rounded-tr-[8px]'>
-                <button className='w-full flex justify-center items-center' type='submit' form='addcart'>
-                {IsView ? <Trash2 color="white"/> : <ShoppingCart color="white"/>}
-                </button>
+            <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] absolute right-0 h-full w-2/12 flex items-center justify-center'>
+                <Button className='w-full flex justify-center items-center rounded-tl-none rounded-bl-none' type='submit' form='addcart'>
+                {IsView ? <Trash2/> : <ShoppingCart/>}
+                </Button>
                 <input type="text" hidden defaultValue={email} name='userid'/>
                 <input type="text" hidden defaultValue={id} name='cardid'/>
             </form>
