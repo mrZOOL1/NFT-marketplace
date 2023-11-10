@@ -13,6 +13,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { TooManyDecimals } from '@/lib/utils';
+
 
 interface props {
   email: string;
@@ -54,7 +56,7 @@ const CreateForm = ({email, name, cardtitles}:props) => {
         allgood = false;
       }
 
-      else if (price.value.toString().length > 4) {
+      else if (TooManyDecimals(price.value.toString())) {
         SetDecimal(false);
         allgood = false;
       }

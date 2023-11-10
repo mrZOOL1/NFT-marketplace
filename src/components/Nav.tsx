@@ -56,7 +56,7 @@ const Nav = async () => {
         <Link href='/cart' className='relative'>
 
           <div className='absolute top-0 right-0 w-6 h-6 bg-[#b92ed1] rounded-full translate-x-1/2 -translate-y-1/2 flex justify-center items-center text-white'>
-            {cartnum}
+            <p>{cartnum}</p>
           </div>
 
           <Button variant="secondary" size='icon'>
@@ -80,7 +80,7 @@ const Nav = async () => {
               <Link href='/cart'>
                 Cart
                 <div className='absolute top-1/2 -translate-y-1/2 right-0 w-6 h-6 bg-[#c043d6] rounded-full -translate-x-1 flex justify-center items-center text-white'>
-                  {cartnum}
+                  <p>{cartnum}</p>
                 </div>
               </Link>
             </DropdownMenuItem>

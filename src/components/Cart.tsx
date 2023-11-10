@@ -4,13 +4,13 @@ import React, {useState, useRef, useEffect} from 'react';
 import CartItem from '@/components/CartItem';
 import { Card_Type } from '@/lib/types';
 import { DeleteCartItemsAction, BuyAction } from '@/lib/actions';
-import { Decimal } from 'decimal.js';
+import Decimal from 'decimal.js';
 
 interface props {
     allcards: Card_Type[];
     email:string;
     name: string;
-    funds: Decimal | undefined;
+    funds: string | undefined;
 }
 
 const Cart = ({allcards, email, name, funds}:props) => {
@@ -34,6 +34,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
     const [Total, SetTotal] = useState(GetDefaultTotal());
     const [CheckedCount, SetCheckedCount] = useState(allcards.length);
     const [CanAfford, SetCanAfford] = useState(true);
+    const [Funds, SetFunds] = useState(funds ? parseFloat(funds) : 0);
     const IdToDelete = useRef(GetDefaultIdArray());
 
     const CheckHandler = function (price:number, index: number, cardid:string) {
@@ -95,8 +96,13 @@ const Cart = ({allcards, email, name, funds}:props) => {
     
         if (allgood) {
             SetCanAfford(true); 
+            SetCheckedCount(0);
+            SetTotal(0);
+            const newfunds = Decimal.sub(Funds, Total).toNumber();
+            SetFunds(newfunds);
+            IdToDelete.current = [];
         }
-  
+        
     }
 
     useEffect(() => {
@@ -110,9 +116,9 @@ const Cart = ({allcards, email, name, funds}:props) => {
             
             <p className='font-semibold text-2xl'>Summary</p>
 
-            <div className='grid grid-cols-2 grid-rows-2'>
+            <div className='grid grid-cols-2 grid-rows-2 gap-x-2'>
                 <p>Total: </p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
-                <p>Funds: </p>  <p className='break-all'>{`ETH ${funds ? funds.toString() : '0'}`}</p>
+                <p>Funds: </p>  <p className='break-all'>{`ETH ${Funds}`}</p>
             </div>
 
             <button className='purple text-white p-2 rounded-[12px] w-72 text-xl self-center'>Buy ({CheckedCount})</button>
@@ -149,9 +155,9 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 
                 <p className='font-semibold text-2xl'>Summary</p>
 
-                <div className='grid grid-cols-2 grid-rows-2'>
+                <div className='grid grid-cols-2 grid-rows-2 gap-x-2'>
                     <p>Total: </p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
-                    <p>Funds: </p>  <p className='break-all'>{`ETH ${funds ? funds.toString() : '0'}`}</p>
+                    <p>Funds: </p>  <p className='break-all'>{`ETH ${Funds}`}</p>
                 </div>
 
 

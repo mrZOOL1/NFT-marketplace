@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { Decimal } from 'decimal.js';
-
+import { TooManyDecimals } from "./utils";
 import { CreateCard, FilterCardsByUserId, DeleteCard, AddToCart, ReadCart, AddLike, RemoveLike, RemoveItemFromCart, UpdatePrice, BuyCard, AddFunds, DecreaseFunds } from "./prisma"
 
 export async function CreateCardAction(FormData: FormData) {
@@ -20,7 +20,7 @@ export async function CreateCardAction(FormData: FormData) {
     const cardtitles = mycards.map(card => card.title);
 
     const IsImage = image?.type === ('image/png' || 'image/jpg' || 'image/jpeg')
-    if (price.length <= 4 && title !== '' && price !== '' && IsImage && !cardtitles.includes(title) && decimalprice.lessThanOrEqualTo(9999) && decimalprice.greaterThanOrEqualTo(0.01)) {
+    if (!TooManyDecimals(price) && title !== '' && price !== '' && IsImage && !cardtitles.includes(title) && decimalprice.lessThanOrEqualTo(9999) && decimalprice.greaterThanOrEqualTo(0.01)) {
         await CreateCard(id, userid, owner, title, price, image);
         await revalidatePath('/profile/nfts');
         await redirect('/profile/nfts');
@@ -89,10 +89,10 @@ export async function UpdatePriceAction(FormData: FormData) {
     const newprice = FormData.get('newprice') as string;
     const cardid = FormData.get('cardid') as string;
     const sameprice = FormData.get('sameprice') as string;
-    const decimalnewprice = new Decimal(newprice);
-    const decimalsameprice = new Decimal(sameprice);
+    const decimalnewprice = new Decimal(parseFloat(newprice));
+    const decimalsameprice = new Decimal(parseFloat(sameprice));
 
-    if (newprice.length <= 4 && decimalnewprice.greaterThanOrEqualTo(0.001) && decimalnewprice.lessThanOrEqualTo(9999) && !(decimalnewprice.equals(decimalsameprice))) {
+    if (newprice.length > 0 && !TooManyDecimals(newprice) && decimalnewprice.greaterThanOrEqualTo(0.01) && decimalnewprice.lessThanOrEqualTo(9999) && !(decimalnewprice.equals(decimalsameprice))) {
         await UpdatePrice(newprice, cardid);
         await revalidatePath('/profile/nfts');
         await redirect('/profile/nfts');
@@ -117,7 +117,7 @@ export async function BuyAction(FormData: FormData) {
             }
         });
         const money = Decimal.sub(funds, total)
-        await DecreaseFunds(userid, money);
+        await DecreaseFunds(userid, money.toString());
         await revalidatePath('/cart');
     }
 }
@@ -126,7 +126,7 @@ export async function AddFundsAction(FormData: FormData) {
     const email = FormData.get('email') as string;
     const input = FormData.get('money') as string;
     const money = new Decimal(parseFloat(input));
-    if (money.greaterThanOrEqualTo(0.01) && money.lessThanOrEqualTo(1000) && input.length <= 4) {
+    if (money.greaterThanOrEqualTo(0.01) && money.lessThanOrEqualTo(1000) && !TooManyDecimals(input)) {
         await AddFunds(email, money);
         await revalidatePath('/profile/wallet');
     }

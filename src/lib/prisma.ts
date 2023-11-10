@@ -281,14 +281,16 @@ export const AddFunds = async function (email: string, money: Decimal) {
 
     const funds = await GetFunds(email);
 
-    if (funds || funds === 0) {
+    if (funds) {
+
+        const oldfunds = new Decimal(parseFloat(funds));
 
         await prisma.users.update({
             where: {
                 email
             },
             data: {
-                money: Decimal.add(money, funds)
+                money: Decimal.add(oldfunds, money).toString()
             }
         });
 
@@ -297,14 +299,14 @@ export const AddFunds = async function (email: string, money: Decimal) {
         await prisma.users.create({
             data: {
                 email,
-                money
+                money: money.toString()
             }
         });
 
     }
 }
 
-export const DecreaseFunds = async function (email: string, money: Decimal) {
+export const DecreaseFunds = async function (email: string, money: string) {
     noStore();
 
     await prisma.users.update({

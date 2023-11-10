@@ -13,41 +13,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {Decimal} from 'decimal.js';
+import Decimal from 'decimal.js';
+import { TooManyDecimals } from '@/lib/utils';
 
 interface props {
   email: string;
-  funds: Decimal | undefined;
+  funds: string | undefined;
 }
 
 const CreateForm = ({email, funds}:props) => {
 
   const [Range, SetRange] = useState(true);
-  const [Decimal, SetDecimal] = useState(true);
+  const [DecimalOK, SetDecimalOK] = useState(true);
+  const [Funds, SetFunds] = useState(funds ? parseFloat(funds) : 0);
 
   const showlabel = function () {
     
     SetRange(true);
-    SetDecimal(true);
+    SetDecimalOK(true);
 
-    const funds = document.querySelector('input[name="money"]') as HTMLInputElement;
+    const addfunds = document.querySelector('#money') as HTMLInputElement;
     SetRange(true);
 
     let allgood = true;
 
-    if (funds.value.toString().length === 0 || parseFloat(funds.value.toString()) > 1000 || parseFloat(funds.value.toString()) < 0.01) {
+    if (addfunds.value.toString().length === 0 || parseFloat(addfunds.value.toString()) > 1000 || parseFloat(addfunds.value.toString()) < 0.01) {
       SetRange(false);
       allgood = false;
     }
 
-    else if (funds.value.toString().length > 4) {
-      SetDecimal(false);
+    else if (TooManyDecimals(addfunds.value.toString())) {
+      SetDecimalOK(false);
       allgood = false;
     }
 
     if (allgood) {
       SetRange(true); 
-      SetDecimal(true);
+      SetDecimalOK(true);
+      const newfunds = Decimal.sum(Funds, parseFloat(addfunds.value.toString())).toNumber();
+      SetFunds(newfunds);
     }
 
   }
@@ -57,7 +61,7 @@ const CreateForm = ({email, funds}:props) => {
 
     <CardHeader>
       <CardTitle>Add Funds</CardTitle>
-      <CardDescription>{`You have ${funds ? funds.toString() : '0'} ETH in your account`}</CardDescription>
+      <CardDescription>{`You have ${Funds} ETH in your account`}</CardDescription>
     </CardHeader>
 
     <CardContent>

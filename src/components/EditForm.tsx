@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { usePathname } from 'next/navigation';
+import { TooManyDecimals } from '@/lib/utils';
 
 interface props {
   oldprice: string;
@@ -32,13 +33,13 @@ const EditForm = ({oldprice}:props) => {
       SetDifferent(true);
       SetDecimal(true);
   
-      const newprice = document.querySelector('input[name="newprice"]') as HTMLInputElement;
+      const newprice = document.querySelector('#newprice') as HTMLInputElement;
       SetRange(true);
       SetDifferent(true);
   
       let allgood = true;
 
-      if (newprice.value.toString().length === 0 || parseFloat(newprice.value.toString()) > 9999 || parseFloat(newprice.value.toString()) < 0.001) {
+      if (newprice.value.toString().length === 0 || parseFloat(newprice.value.toString()) > 9999 || parseFloat(newprice.value.toString()) < 0.01) {
         SetRange(false);
         allgood = false;
       }
@@ -48,7 +49,7 @@ const EditForm = ({oldprice}:props) => {
         allgood = false;
       }
 
-      else if (newprice.value.toString().length > 4) {
+      else if (TooManyDecimals(newprice.value.toString())) {
         SetDecimal(false);
         allgood = false;
       }
@@ -86,7 +87,7 @@ const EditForm = ({oldprice}:props) => {
 
     <CardFooter className="flex flex-col items-center justify-center">
       <Button type='submit' form='createform' >Edit</Button>
-      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Price must be between 0.001 and 9999</p>
+      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Price must be between 0.01 and 9999</p>
       <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Different ? 'none' : ''}}>Price must be different</p>
       <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Decimal ? 'none' : ''}}>Maximum 2 decimal digits</p>
     </CardFooter>
