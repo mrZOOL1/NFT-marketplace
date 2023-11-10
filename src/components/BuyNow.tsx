@@ -26,19 +26,23 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
 
     const showlabel = function () {
 
-        SetCanAfford(true);
-        let allgood = true;
-    
-        if (parseFloat(price) > funds) {
-            console.log(price, funds);
-            SetCanAfford(false);
-            allgood = false;
-        }
-    
-        if (allgood) {
+        if (!IsView) {
+
             SetCanAfford(true);
+            let allgood = true;
+        
+            if (parseFloat(price) > funds) {
+                console.log(price, funds);
+                SetCanAfford(false);
+                allgood = false;
+            }
+        
+            if (allgood) {
+                SetCanAfford(true);
+            }
+
         }
-      
+
     }
 
   return (
