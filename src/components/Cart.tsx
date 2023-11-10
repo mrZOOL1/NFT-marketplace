@@ -41,12 +41,12 @@ const Cart = ({allcards, email, name, funds}:props) => {
         const boxes = document.querySelectorAll('#checkbox') as NodeListOf<HTMLInputElement>;
         if (!boxes[index].checked) {
             boxes[index].checked = false;
-            SetTotal(old => old - price);
+            SetTotal(old => Decimal.sub(old, price).toNumber());
             SetCheckedCount(old => old - 1);
             IdToDelete.current = IdToDelete.current.filter(id => id !== cardid);
         } else {
             boxes[index].checked = true;
-            SetTotal(old => old + price);
+            SetTotal(old => Decimal.sum(old, price).toNumber());
             SetCheckedCount(old => old + 1);
             IdToDelete.current = [...IdToDelete.current, cardid];
         }

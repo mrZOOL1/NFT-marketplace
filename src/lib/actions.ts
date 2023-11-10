@@ -67,16 +67,6 @@ export async function ToggleLikeAction(FormData: FormData) {
     await revalidatePath(`/${cardid}`);
 }
 
-export async function DeleteCartItemsAction(FormData: FormData) {
-    const userid = FormData.get('userid') as string;
-    const IdToDelete = FormData.get('idtodelete') as string;
-    const IdToDeleteArray = IdToDelete.split('#');
-    IdToDeleteArray.forEach(async (id) => {
-        await RemoveItemFromCart(userid, id);
-    });
-    await revalidatePath('/cart');
-}
-
 export async function DeleteCartItemAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
     const cardid = FormData.get('cardid') as string;
@@ -99,7 +89,18 @@ export async function UpdatePriceAction(FormData: FormData) {
     }
 }
 
+export async function DeleteCartItemsAction(FormData: FormData) {
+    const userid = FormData.get('userid') as string;
+    const IdToDelete = FormData.get('idtodelete') as string;
+    const IdToDeleteArray = IdToDelete.split('#');
+    IdToDeleteArray.forEach(async (id) => {
+        await RemoveItemFromCart(userid, id);
+    });
+    await revalidatePath('/cart');
+}
+
 export async function BuyAction(FormData: FormData) {
+
     const userid = FormData.get('userid') as string;
     const name = FormData.get('name') as string;
     const allid = FormData.get('allid') as string;
@@ -120,6 +121,7 @@ export async function BuyAction(FormData: FormData) {
         await DecreaseFunds(userid, money.toString());
         await revalidatePath('/cart');
     }
+
 }
 
 export async function AddFundsAction(FormData: FormData) {
