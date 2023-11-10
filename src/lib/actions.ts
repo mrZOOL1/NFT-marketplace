@@ -67,13 +67,6 @@ export async function ToggleLikeAction(FormData: FormData) {
     await revalidatePath(`/${cardid}`);
 }
 
-export async function DeleteCartItemAction(FormData: FormData) {
-    const userid = FormData.get('userid') as string;
-    const cardid = FormData.get('cardid') as string;
-    await RemoveItemFromCart(userid, cardid);
-    await revalidatePath('/cart');
-}
-
 export async function UpdatePriceAction(FormData: FormData) {
 
     const newprice = FormData.get('newprice') as string;
@@ -89,14 +82,25 @@ export async function UpdatePriceAction(FormData: FormData) {
     }
 }
 
+export async function DeleteCartItemAction(FormData: FormData) {
+    const userid = FormData.get('userid') as string;
+    const cardid = FormData.get('cardid') as string;
+    await RemoveItemFromCart(userid, cardid);
+    await revalidatePath('/cart');
+}
+
 export async function DeleteCartItemsAction(FormData: FormData) {
+
     const userid = FormData.get('userid') as string;
     const IdToDelete = FormData.get('idtodelete') as string;
     const IdToDeleteArray = IdToDelete.split('#');
-    IdToDeleteArray.forEach(async (id) => {
-        await RemoveItemFromCart(userid, id);
-    });
+
+    for (let i = 0; i < IdToDeleteArray.length; i++) {
+        await RemoveItemFromCart(userid, IdToDeleteArray[i]);
+    }
+
     await revalidatePath('/cart');
+
 }
 
 export async function BuyAction(FormData: FormData) {
@@ -111,12 +115,12 @@ export async function BuyAction(FormData: FormData) {
     const IdArray = allid.split('#');
 
     if (funds.greaterThanOrEqualTo(total)) {
-        IdArray.forEach(async (id) => {
-            if (id !== '') {
-                await BuyCard(id, userid, name);
-                await RemoveItemFromCart(userid, id);
+        for (let i = 0; i < IdArray.length; i++) {
+            if (IdArray[i] !== '') {
+                await BuyCard(IdArray[i], userid, name);
+                await RemoveItemFromCart(userid, IdArray[i]);
             }
-        });
+        }
         const money = Decimal.sub(funds, total)
         await DecreaseFunds(userid, money.toString());
         await revalidatePath('/cart');
@@ -135,6 +139,7 @@ export async function AddFundsAction(FormData: FormData) {
 }
 
 export async function BuyOne(FormData: FormData) {
+
     const cardid = FormData.get('cardid') as string;
     const price = FormData.get('price') as string;
     const owner = FormData.get('owner') as string;
@@ -152,8 +157,7 @@ export async function BuyOne(FormData: FormData) {
             const money = Decimal.sub(parseFloat(funds), parseFloat(price))
             await BuyCard(cardid, email, owner);
             await DecreaseFunds(email, money.toString());
-            await revalidatePath('/profile/nfts');
-            await redirect('/profile/nfts');
+            await revalidatePath(`/${cardid}`);
 
         }
 
