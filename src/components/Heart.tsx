@@ -15,6 +15,14 @@ const Heart = ({cardid, isliked, email, ChangeNum}:props) => {
   const [IsLikedState, SetIsLikedState] = useState(isliked);
   const IsLiked = useRef(isliked);
 
+  const {theme, setTheme} = useTheme();
+  const currenttheme = localStorage.getItem('theme');
+  if (currenttheme) {
+    setTheme(currenttheme);
+  } else {
+    setTheme('dark');
+  }
+
   const SubmitHandler = function () {
     SetIsLikedState(old => !old);
     IsLiked.current = !IsLiked.current;
@@ -25,8 +33,6 @@ const Heart = ({cardid, isliked, email, ChangeNum}:props) => {
     const input = document.querySelector('#isliked') as HTMLInputElement;
     input.value = IsLiked.current.toString();
   },[IsLikedState]);
-
-  const {theme} = useTheme();
 
   return (
     <form action={ToggleLikeAction} className='w-[26px] h-[26px]' onSubmit={SubmitHandler}>
