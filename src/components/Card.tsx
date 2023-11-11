@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Card_Type } from '@/lib/types'
 
+
 const Card = ({id, title, price, image}: Card_Type) => {
 
   let newtitle = title;
