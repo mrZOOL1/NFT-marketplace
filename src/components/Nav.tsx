@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from './ui/button';
 import { Separator } from "@/components/ui/separator"
 import Image from 'next/image';
-import { UserCircle2, Mail, ShoppingCart, Menu, LogOut, Heading1 } from 'lucide-react';
+import { UserCircle2, Mail, ShoppingCart, Menu } from 'lucide-react';
 import Link from 'next/link';
 import {
   DropdownMenu,
