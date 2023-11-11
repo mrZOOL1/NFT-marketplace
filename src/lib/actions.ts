@@ -83,10 +83,13 @@ export async function UpdatePriceAction(FormData: FormData) {
 }
 
 export async function DeleteCartItemAction(FormData: FormData) {
+
     const userid = FormData.get('userid') as string;
     const cardid = FormData.get('cardid') as string;
+
     await RemoveItemFromCart(userid, cardid);
     await revalidatePath('/cart');
+
 }
 
 export async function DeleteCartItemsAction(FormData: FormData) {
@@ -107,23 +110,26 @@ export async function BuyAction(FormData: FormData) {
 
     const userid = FormData.get('userid') as string;
     const name = FormData.get('name') as string;
-    const allid = FormData.get('allid') as string;
     const totalstring = FormData.get('total') as string;
     const fundsstring = FormData.get('funds') as string;
     const funds = new Decimal(parseFloat(fundsstring));
     const total = new Decimal(parseFloat(totalstring));
-    const IdArray = allid.split('#');
+    const IdToBuy = FormData.get('idtobuy') as string;
+    const IdToBuyArray = IdToBuy.split('#');
 
     if (funds.greaterThanOrEqualTo(total)) {
-        for (let i = 0; i < IdArray.length; i++) {
-            if (IdArray[i] !== '') {
-                await BuyCard(IdArray[i], userid, name);
-                await RemoveItemFromCart(userid, IdArray[i]);
+
+        for (let i = 0; i < IdToBuyArray.length; i++) {
+            if (IdToBuyArray[i] !== '') {
+                await BuyCard(IdToBuyArray[i], userid, name);
+                await RemoveItemFromCart(userid, IdToBuyArray[i]);
             }
         }
+
         const money = Decimal.sub(funds, total)
         await DecreaseFunds(userid, money.toString());
         await revalidatePath('/cart');
+
     }
 
 }

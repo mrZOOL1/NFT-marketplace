@@ -14,13 +14,13 @@ interface props {
   last: number;
   cardid: string;
   email: string;
-  CheckHandler: (price: number, index: number, cardid: string) => void;
+  CheckHandler: (price: number, index: number, cardid: string, justdelete:boolean) => void;
 }
 
 const CartItem = ({title, price, image, last, CheckHandler, index, cardid, email}:props) => {
 
   const clickhandler = function () {
-    CheckHandler(parseFloat(price), index, cardid);
+    CheckHandler(parseFloat(price), index, cardid, false);
   }   
 
   return (
@@ -40,12 +40,15 @@ const CartItem = ({title, price, image, last, CheckHandler, index, cardid, email
 
         </div>
 
-        <form action={DeleteCartItemAction}>
-          <input type="text" name='userid' hidden defaultValue={email}/>
-          <input type="text" name='cardid' hidden defaultValue={cardid}/>
+        <form action={DeleteCartItemAction} onSubmit={() => CheckHandler(parseFloat(price), index, cardid, true)}>
+
+          <input type="text" name='userid' id='userid' hidden defaultValue={email}/>
+          <input type="text" name='cardid' id='cardid' hidden defaultValue={cardid}/>
+          
           <button type='submit'>
             <Trash2 className='hover:scale-[1.2] transition-all'/>
           </button>
+
         </form>
 
       </div>
