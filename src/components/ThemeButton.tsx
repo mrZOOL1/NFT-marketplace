@@ -17,7 +17,7 @@ const ThemeButton = () => {
 
   return (
     <form onSubmit={(e) => handler(e)}>
-        <Button type='submit' variant='secondary' className='rounded-[12px] w-28 h-28 flex items-center justify-center glow transition-all'>
+        <Button type='submit' variant='secondary' className='rounded-[0.5rem] w-28 h-28 flex items-center justify-center glow transition-all'>
             {theme === 'light' ? <Sun size={50}/> : <Moon size={50}/>}
         </Button>
     </form>

@@ -11,13 +11,13 @@ const Card = ({id, title, price, image}: Card_Type) => {
   }
 
   return (
-    <div className='card cardbg relative rounded-[10px] glow hover:-translate-y-2 transition-all w-full sm:w-[275px] bg-accent'>
+    <div className='card cardbg relative rounded-[0.5rem] glow hover:-translate-y-2 transition-all w-full sm:w-[275px] bg-accent'>
       
       <Link href={`/${id}`}>
 
-        <Image className='rounded-tr-[8px] rounded-tl-[8px] w-full' src='/images/blank.png' alt='nft image' width={500} height={500}/>
+        <Image className='rounded-tr-[0.5rem] rounded-tl-[0.5rem] w-full' src='/images/blank.png' alt='nft image' width={500} height={500}/>
 
-        <div className='flex flex-col justify-center w-full p-2 py-4 rounded-br-[8px] rounded-bl-[8px]'>
+        <div className='flex flex-col justify-center w-full p-2 py-4 rounded-br-[0.5rem] rounded-bl-[0.5rem]'>
           <p className='text-lg overflow-hidden whitespace-nowrap'>{newtitle}</p>
           <p className='text-sm'>{`${price} ETH`}</p>
         </div>

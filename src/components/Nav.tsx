@@ -15,7 +15,6 @@ import { getServerSession } from 'next-auth';
 import {options} from '@/app/api/auth/[...nextauth]/options'
 import SignOut from './SignOut';
 import SignOutMobile from './SignOutMobile';
-import ThemeButton from './ThemeButton';
 
 const Nav = async () => {
 
@@ -68,7 +67,7 @@ const Nav = async () => {
 
       </div>
 
-      <div className='sm:hidden rounded-sm p-2 flex justify-center items-center'>
+      <div className='sm:hidden p-2 flex justify-center items-center'>
         <DropdownMenu>
 
           <DropdownMenuTrigger><Menu height={24} width={24}/></DropdownMenuTrigger>

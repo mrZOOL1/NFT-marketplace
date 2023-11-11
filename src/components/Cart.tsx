@@ -113,7 +113,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
   return (
     <>
-        <form action={BuyAction} className='hidden sm:bg-accent sm:rounded-[12px] sm:max-w-[300px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2' onSubmit={showlabel}>
+        <form action={BuyAction} className='hidden sm:bg-accent sm:rounded-[0.5rem] sm:max-w-[300px] sm:h-min sm:gap-2 sm:sticky sm:top-24 sm:flex sm:flex-col sm:items-start sm:justify-between sm:p-2 sm:shadow2' onSubmit={showlabel}>
             
             <p className='font-semibold text-2xl'>Summary</p>
 
@@ -136,7 +136,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
         <div className='w-full h-full  flex flex-col items-center gap-2'>
 
-            <div className='bg-accent rounded-[12px] w-full min-h-20 p-2 flex flex-col gap-2 shadow2'>
+            <div className='bg-accent rounded-[0.5rem] w-full min-h-20 p-2 flex flex-col gap-2 shadow2'>
                 <h1 className='text-2xl font-semibold'>Shopping Cart ({CheckedCount})</h1>
                 <div className='flex gap-4'>
                     <button onClick={SelectAll} className='hover:text-muted-foreground transition-all'>Select all items</button>
@@ -148,11 +148,11 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 </div>
             </div>
 
-            <div className='flex flex-col bg-accent rounded-[12px] w-full p-2 shadow2' style={{display: allcards.length===0 ? 'none' : 'inline-block'}}>
+            <div className='flex flex-col bg-accent rounded-[0.5rem] w-full p-2 shadow2' style={{display: allcards.length===0 ? 'none' : 'inline-block'}}>
                 {allcards.map((card:Card_Type, index:number) => <CartItem index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} image={card.image} cardid={card.id} email={email}/>)}
             </div>
 
-            <form action={BuyAction} className='bg-gray-200 rounded-[12px] h-min gap-2 w-full flex flex-col items-start justify-between p-2 sm:hidden shadow2' onSubmit={showlabel}>
+            <form action={BuyAction} className='bg-accent rounded-[0.5rem] h-min gap-2 w-full flex flex-col items-start justify-between p-2 sm:hidden shadow2' onSubmit={showlabel}>
                 
                 <p className='font-semibold text-2xl'>Summary</p>
 
@@ -162,7 +162,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 </div>
 
 
-                <button type='submit' className='purple text-white p-2 rounded-[12px] w-full self-center text-xl'>Buy ({CheckedCount})</button>
+                <Button type='submit' className='text-white p-2 rounded-[0.5rem] w-full self-center text-xl'>Buy ({CheckedCount})</Button>
                 
                 <p className='text-red-500 font-semibold w-full text-center' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
 

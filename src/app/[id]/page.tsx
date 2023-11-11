@@ -32,15 +32,15 @@ const page = async ({ params }: { params: { id: string } }) => {
         <p className='text-center break-all'>Owned by {message}</p>
       </div>
 
-      <div className=' rounded-[12px] w-[min(500px,90%)] bg-accent glow'>
+      <div className=' rounded-[0.5rem] w-[min(500px,90%)] bg-accent glow'>
         
         <LikeButton cardid={params.id} isliked={isliked} email={session.user!.email!} likes={num}/>
 
-        <Image src='/images/blank.png' alt='nft' width={500} height={500} className='rounded-bl-[10px] rounded-br-[10px]'/>
+        <Image src='/images/blank.png' alt='nft' width={500} height={500} className='rounded-bl-[0.5rem] rounded-br-[0.5rem]'/>
 
       </div>
 
-      <div className='bg-accent rounded-[12px] p-3 flex flex-col items-center gap-1 w-[min(500px,90%)] glow'>
+      <div className='bg-accent rounded-[0.5rem] p-3 flex flex-col items-center gap-1 w-[min(500px,90%)] glow'>
 
         <div className='flex flex-col w-full items-start'>
           <p className='text-sm text-muted-foreground'>Current Price</p>

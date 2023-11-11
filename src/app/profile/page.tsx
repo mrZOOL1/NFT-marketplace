@@ -25,7 +25,7 @@ const page = async () => {
         <Link href='/profile/wallet' className='flex flex-col items-center gap-1'>
 
           <p className='font-semibold text-xl'>Wallet</p>
-          <Button variant='secondary' className='transition-all rounded-[12px] w-28 h-28 flex items-center justify-center glow'>
+          <Button variant='secondary' className='transition-all rounded-[0.5rem] w-28 h-28 flex items-center justify-center glow'>
             <Wallet2 size={50}/>
           </Button>
 
@@ -35,7 +35,7 @@ const page = async () => {
         <Link href='/profile/nfts' className='flex flex-col items-center gap-1'>
 
           <p className='font-semibold text-xl'>NFTs</p>
-          <Button variant='secondary' className='transition-all rounded-[12px] w-28 h-28 flex items-center justify-center glow'>
+          <Button variant='secondary' className='transition-all rounded-[0.5rem] w-28 h-28 flex items-center justify-center glow'>
             <Image size={50}/>
           </Button>
 

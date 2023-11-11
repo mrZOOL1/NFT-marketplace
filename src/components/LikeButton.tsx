@@ -23,7 +23,7 @@ const LikeButton = ({cardid, isliked, email, likes}:props) => {
     }
 
   return (
-    <div className='flex gap-1 items-center justify-start p-2 cardbg rounded-tl-[10px] rounded-tr-[10px]'>
+    <div className='flex gap-1 items-center justify-start p-2 cardbg rounded-tl-[0.5rem] rounded-tr-[0.5rem]'>
         <Heart cardid={cardid} isliked={isliked} email={email} ChangeNum={ChangeNum}/>
         <p className='text-lg font-semibold'>{Num}</p>
     </div>
