@@ -117,12 +117,12 @@ const Cart = ({allcards, email, name, funds}:props) => {
             
             <p className='font-semibold text-2xl'>Summary</p>
 
-            <div className='grid grid-cols-2 grid-rows-2 gap-x-2 justify-self-start'>
+            <div className='gridparent'>
                 <p className='font-semibold'>Total: </p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
                 <p className='font-semibold'>Funds: </p>  <p className='break-all'>{`ETH ${Funds}`}</p>
             </div>
-
-            <Button className='text-white p-2 w-72 text-xl self-center'>Buy ({CheckedCount})</Button>
+            
+            <Button className='text-white w-72 text-xl self-center'>Buy ({CheckedCount})</Button>
 
             <p className='text-red-500 font-semibold w-full text-center' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
 
@@ -162,7 +162,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 </div>
 
 
-                <Button type='submit' className='text-white p-2 rounded-[0.5rem] w-full self-center text-xl'>Buy ({CheckedCount})</Button>
+                <Button type='submit' className='text-white rounded-[0.5rem] w-full self-center text-xl'>Buy ({CheckedCount})</Button>
                 
                 <p className='text-red-500 font-semibold w-full text-center' style={{display: CanAfford ? 'none' : ''}}>Not Enough Funds</p>
 
