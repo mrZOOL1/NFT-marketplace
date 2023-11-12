@@ -141,6 +141,7 @@ export async function AddFundsAction(FormData: FormData) {
     if (money.greaterThanOrEqualTo(0.01) && money.lessThanOrEqualTo(1000) && !TooManyDecimals(input)) {
         await AddFunds(email, money);
         await revalidatePath('/profile/wallet');
+        await revalidatePath('/cart');
     }
 }
 

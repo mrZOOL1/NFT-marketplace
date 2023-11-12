@@ -84,7 +84,7 @@ const CreateForm = ({email, funds}:props) => {
     <CardFooter className="flex flex-col items-center justify-center">
       <Button type='submit' form='createform' >Add Funds</Button>
       <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Amount must be between 0.01 and 1000</p>
-      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Decimal ? 'none' : ''}}>Maximum 2 decimal digits</p>
+      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: DecimalOK ? 'none' : ''}}>Maximum 2 decimal digits</p>
     </CardFooter>
 
     </Card>
