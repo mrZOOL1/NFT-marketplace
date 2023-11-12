@@ -32,7 +32,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
         return AllId;   
     }
 
-    const [Total, SetTotal] = useState(GetDefaultTotal());
+    const Total = useRef(GetDefaultTotal());
     const [CheckedCount, SetCheckedCount] = useState(allcards.length);
     const [CanAfford, SetCanAfford] = useState(true);
     const [Funds, SetFunds] = useState(funds ? parseFloat(funds) : 0);
@@ -40,9 +40,11 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
     const CheckHandler = function (price:number, index: number, cardid:string, justdelete:boolean) {
 
+        console.log(Total.current);
+
         if (justdelete) {
 
-            SetTotal(old => Decimal.sub(old, price).toNumber());
+            Total.current = Decimal.sub(Total.current, price).toNumber();
             SetCheckedCount(old => old - 1);
 
         } else {
@@ -50,12 +52,12 @@ const Cart = ({allcards, email, name, funds}:props) => {
             const boxes = document.querySelectorAll('#checkbox') as NodeListOf<HTMLInputElement>;
             if (!boxes[index].checked) {
                 boxes[index].checked = false;
-                SetTotal(old => Decimal.sub(old, price).toNumber());
+                Total.current = Decimal.sub(Total.current, price).toNumber();
                 SetCheckedCount(old => old - 1);
                 IdToDelete.current = IdToDelete.current.filter(id => id !== cardid);
             } else {
                 boxes[index].checked = true;
-                SetTotal(old => Decimal.sum(old, price).toNumber());
+                Total.current = Decimal.sum(Total.current, price).toNumber();
                 SetCheckedCount(old => old + 1);
                 IdToDelete.current = [...IdToDelete.current, cardid];
             }
@@ -66,7 +68,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
 
     const HandleDeleteSelected = function () {
         SetCheckedCount(0);
-        SetTotal(0);
+        Total.current = 0;
         IdToDelete.current = [];
     }
 
@@ -86,7 +88,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
             });
 
             SetCheckedCount(0);
-            SetTotal(0);
+            Total.current = 0;
             IdToDelete.current = [];
 
         } else {
@@ -96,7 +98,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
             });
 
             SetCheckedCount(allcards.length);
-            SetTotal(GetDefaultTotal());
+            Total.current = GetDefaultTotal();
             IdToDelete.current = GetDefaultIdArray();
 
         }
@@ -107,7 +109,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
         let allgood = true;
         SetCanAfford(true);
 
-        if (!(funds && parseFloat(funds.toString()) >= Total)) {
+        if (!(funds && parseFloat(funds.toString()) >= Total.current)) {
             SetCanAfford(false);
             allgood = false;
         }
@@ -115,17 +117,26 @@ const Cart = ({allcards, email, name, funds}:props) => {
         if (allgood) {
             SetCanAfford(true); 
             SetCheckedCount(0);
-            SetTotal(0);
+            Total.current = 0;
             IdToDelete.current = [];
-            const newfunds = Decimal.sub(Funds, Total).toNumber();
+            const newfunds = Decimal.sub(Funds, Total.current).toNumber();
             SetFunds(newfunds);
         }
         
     }
 
     useEffect(() => {
-        const input = document.querySelector('#idtodelete') as HTMLInputElement;
-        input.value = IdToDelete.current.join('#');
+        const idtodelete = document.querySelectorAll('#idtodelete') as NodeListOf<HTMLInputElement>;
+        const idtobuy = document.querySelectorAll('#idtobuy') as NodeListOf<HTMLInputElement>;
+        const total = document.querySelectorAll('#total') as NodeListOf<HTMLInputElement>;
+
+        idtodelete.forEach(item => {item.value = IdToDelete.current.join('#');});
+        idtobuy.forEach(item => {item.value = IdToDelete.current.join('#');});
+        total.forEach(item => {item.value = Total.current.toString();});
+
+        // idtodelete.value = IdToDelete.current.join('#');
+        // idtobuy.value = IdToDelete.current.join('#');
+        // total.value = Total.current.toString();
     }, [CheckedCount]);
 
   return (
@@ -135,7 +146,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
             <p className='font-semibold text-2xl'>Summary</p>
 
             <div className='gridparent'>
-                <p className='font-semibold'>Total: </p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
+                <p className='font-semibold'>Total: </p>  <p className='break-all'>{`ETH ${Total.current.toString()}`}</p>
                 <p className='font-semibold'>Funds: </p>  <p className='break-all'>{`ETH ${Funds}`}</p>
             </div>
             
@@ -146,7 +157,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
             <input type="text" id='userid' name='userid' hidden defaultValue={email} />
             <input type="text" id='name' name='name' hidden defaultValue={name} />
             <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
-            <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
+            <input type="text" id='total' name='total' hidden defaultValue={Total.current.toString()} />
             <input type="text" id='idtobuy' name='idtobuy' hidden defaultValue={IdToDelete.current.join('#')} />
 
         </form>
@@ -174,7 +185,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 <p className='font-semibold text-2xl'>Summary</p>
 
                 <div className='grid grid-cols-2 grid-rows-2 gap-x-2'>
-                    <p className='font-semibold'>Total: </p>  <p className='break-all'>{`ETH ${Total.toString()}`}</p>
+                    <p className='font-semibold'>Total: </p>  <p className='break-all'>{`ETH ${Total.current.toString()}`}</p>
                     <p className='font-semibold'>Funds: </p>  <p className='break-all'>{`ETH ${Funds}`}</p>
                 </div>
 
@@ -186,7 +197,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
                 <input type="text" id='userid' name='userid' hidden defaultValue={email} />
                 <input type="text" id='name' name='name' hidden defaultValue={name} />
                 <input type="text" id='funds' name='funds' hidden defaultValue={funds ? funds.toString() : '0'} />
-                <input type="text" id='total' name='total' hidden defaultValue={Total.toString()} />
+                <input type="text" id='total' name='total' hidden defaultValue={Total.current.toString()} />
                 <input type="text" id='idtobuy' name='idtobuy' hidden defaultValue={IdToDelete.current.join('#')} />
 
             </form>
