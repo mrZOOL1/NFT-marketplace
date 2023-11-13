@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Card_Type } from '@/lib/types'
 
 
-const Card = ({id, title, price, image}: Card_Type) => {
+const Card = ({id, title, price}: Card_Type) => {
 
   let newtitle = title;
   if (newtitle.length > 23) {
