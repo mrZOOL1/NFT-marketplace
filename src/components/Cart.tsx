@@ -122,9 +122,9 @@ const Cart = ({allcards, email, name, funds}:props) => {
     
         if (allgood) {
             SetCanAfford(true); 
-            SetCheckedCount(0);
-            Total.current = 0;
-            IdToDelete.current = [];
+            SetCheckedCount(old => allcards.length - old);
+            Total.current = GetDefaultTotal() - Total.current;
+            IdToDelete.current = GetDefaultIdArray().filter(item => !IdToDelete.current.includes(item));
             const newfunds = Decimal.sub(Funds, Total.current).toNumber();
             SetFunds(newfunds);
         }
