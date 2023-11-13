@@ -13,11 +13,10 @@ const SearchBar = () => {
   const pathname = usePathname();
 
   const submitHandler = function() {
-    throw new Error('Failed to Delete Invoice');
-    // const search = document.querySelector('#search') as HTMLInputElement;
-    // const searchvalue = search.value.toString();
-    // params.set('title', searchvalue);
-    // replace(`${pathname}?${params.toString()}`);
+    const search = document.querySelector('#search') as HTMLInputElement;
+    const searchvalue = search.value.toString();
+    params.set('title', searchvalue);
+    replace(`${pathname}?${params.toString()}`);
   }
 
   return (

@@ -24,10 +24,6 @@ if (process.env.NODE_ENV === 'production') {
 
 export default prisma;
 
-
-
-
-
 export const ReadAllCards = async function () {
     noStore();
     const cards = await prisma.cards.findMany({
@@ -194,12 +190,12 @@ export const GetCardById = async function (id: string) {
 
 export const GetLikesById = async function (cardid: string) {
     noStore();
-    const card = await prisma.likes.count({
+    const likes = await prisma.likes.count({
         where: {
             cardid
         }
     });
-    return card;
+    return likes;
 }
 
 export const AddLike = async function (cardid: string, userid: string) {
@@ -225,25 +221,23 @@ export const RemoveLike = async function (cardid: string, userid: string) {
 
 export const IsLiked = async function (cardid: string, userid: string) {
     noStore();
-    const card = await prisma.likes.findFirst({
+    const like = await prisma.likes.findFirst({
         where: {
             cardid,
             userid
         }
     });
-    if (card) {
-        console.log('true');
+    if (like) {
         return true;
     }
     else {
-        console.log('false');
         return false;
     }
 }
 
 export const UpdatePrice = async function (price: string, id: string) {
     noStore();
-    const card = await prisma.cards.update({
+    await prisma.cards.update({
         where: {
             id
         },
@@ -255,7 +249,7 @@ export const UpdatePrice = async function (price: string, id: string) {
 
 export const BuyCard = async function (id: string, userid: string, owner: string) {
     noStore();
-    const card = await prisma.cards.update({
+    await prisma.cards.update({
         where: {
             id
         },

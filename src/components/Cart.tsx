@@ -134,9 +134,6 @@ const Cart = ({allcards, email, name, funds}:props) => {
         idtobuy.forEach(item => {item.value = IdToDelete.current.join('#');});
         total.forEach(item => {item.value = Total.current.toString();});
 
-        // idtodelete.value = IdToDelete.current.join('#');
-        // idtobuy.value = IdToDelete.current.join('#');
-        // total.value = Total.current.toString();
     }, [CheckedCount]);
 
   return (
