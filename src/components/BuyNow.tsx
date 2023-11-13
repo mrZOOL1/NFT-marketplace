@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { ShoppingCart,Trash2 } from 'lucide-react'
 import { AddToCartAction,DeleteCardAction, BuyOne } from '@/lib/actions'
 import { usePathname, useSearchParams } from 'next/navigation'
@@ -46,6 +46,20 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
 
     }
 
+    useEffect(() => {
+
+        const ownerinput = document.querySelector('#owner') as HTMLInputElement;
+        const emailinput = document.querySelector('#email') as HTMLInputElement;
+        const fundsinput = document.querySelector('#funds') as HTMLInputElement;
+        const IsViewinput = document.querySelector('#IsView') as HTMLInputElement;
+
+        ownerinput.value = owner;
+        emailinput.value = email;
+        fundsinput.value = funds.toString();
+        IsViewinput.value = IsView.toString();
+
+      },[IsView]);
+
   return (
     <>
 
@@ -59,7 +73,7 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
                 <input type="text" hidden id='price' name='price' defaultValue={price}/>
                 <input type="text" hidden id='owner' name='owner' defaultValue={owner}/>
                 <input type="text" hidden id='email' name='email' defaultValue={email}/>
-                <input type="text" hidden id='funds' name='funds' defaultValue={funds}/>
+                <input type="text" hidden id='funds' name='funds' defaultValue={funds.toString()}/>
                 <input type="text" hidden id='IsView' name='IsView' defaultValue={IsView.toString()}/>
                 <input type="text" hidden id='params' name='params' defaultValue={params.toString()}/>
 
