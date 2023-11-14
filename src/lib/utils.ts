@@ -23,7 +23,7 @@ export const TooManyDecimals = function (text: string): boolean {
   }
 }
 
-export const ActionHandler = function (FormSelector: string, action: (FormData: FormData) => Promise<void>, mystartTransition: any): void {
+export const ActionHandler = function (FormSelector: string, action: (FormData: FormData) => Promise<void>, mystartTransition: React.TransitionStartFunction): void {
 
   const form = document.querySelector(FormSelector) as HTMLFormElement;
   const allinputs = form.querySelectorAll('input');
