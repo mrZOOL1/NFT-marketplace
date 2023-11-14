@@ -1,11 +1,12 @@
 'use client';
 
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useTransition} from 'react'
 import { ShoppingCart,Trash2 } from 'lucide-react'
 import { AddToCartAction,DeleteCardAction, BuyOne } from '@/lib/actions'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { Button } from './ui/button';
-
+import { ActionHandler } from '@/lib/utils';
+import LoadingAction from './LoadingAction';
 
 interface props {
     id: string;
@@ -18,6 +19,7 @@ interface props {
 
 const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
 
+    const [isPending, startTransition] = useTransition();
     const [CanAfford, SetCanAfford] = useState(true);
     const path = usePathname();
     const IsView = path === '/profile/nfts' || mycard;
@@ -25,7 +27,10 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
     const params = new URLSearchParams(searchParams);
     params.set('defaultprice', price);
 
-    const showlabel = function () {
+    const buyone = function (e: React.FormEvent<HTMLFormElement>) {
+
+        e.preventDefault();
+        e.stopPropagation();
 
         if (!IsView) {
 
@@ -43,6 +48,17 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
             }
 
         }
+
+        ActionHandler('#buyoneform', BuyOne, startTransition);
+
+    }
+
+    const deleteoraddtocart = function (e: React.FormEvent<HTMLFormElement>) {
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        ActionHandler('#addcart', IsView ? DeleteCardAction : AddToCartAction, startTransition);
 
     }
 
@@ -63,9 +79,11 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
   return (
     <>
 
+        {isPending && <LoadingAction/>}
+
         <div className='h-10 w-full flex flex-col justify-center relative'>
                 
-            <form action={BuyOne} onSubmit={showlabel} className='whitespace-nowrap h-full w-10/12 flex items-center justify-center'>
+            <form id='buyoneform' onSubmit={(e) => buyone(e)} className='whitespace-nowrap h-full w-10/12 flex items-center justify-center'>
 
                 <Button type='submit' className='rounded-tr-none rounded-br-none text-lg w-full h-full'>{IsView ? 'Edit price' : 'Buy now'}</Button>
 
@@ -79,8 +97,8 @@ const BuyNow = ({id, mycard, email, price, funds, owner}: props) => {
 
             </form>
 
-            <form id='addcart' action={IsView ? DeleteCardAction : AddToCartAction} className='hover: cursor-pointer border-l-[0.1rem] absolute right-0 h-full w-2/12 flex items-center justify-center'>
-                <Button className='w-full flex justify-center items-center rounded-tl-none rounded-bl-none' type='submit' form='addcart'>
+            <form id='addcart' className='hover: cursor-pointer border-l-[0.1rem] absolute right-0 h-full w-2/12 flex items-center justify-center' onSubmit={(e) => deleteoraddtocart(e)}>
+                <Button className='w-full flex justify-center items-center rounded-tl-none rounded-bl-none' type='submit'>
                 {IsView ? <Trash2/> : <ShoppingCart/>}
                 </Button>
                 <input type="text" hidden defaultValue={email} name='userid'/>

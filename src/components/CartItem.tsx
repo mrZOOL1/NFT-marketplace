@@ -1,10 +1,12 @@
 'use client';
 
-import React from 'react'
+import React, {useTransition} from 'react'
 import Image from 'next/image';
 import { Trash2 } from 'lucide-react';
 import { DeleteCartItemAction } from '@/lib/actions';
 import { Separator } from './ui/separator';
+import { ActionHandler } from '@/lib/utils';
+import LoadingAction from './LoadingAction';
 
 interface props {
   title: string;
@@ -17,19 +19,32 @@ interface props {
   CheckHandler: (price: number, index: number, cardid: string, justdelete:boolean) => void;
 }
 
-const CartItem = ({title, price, image, last, CheckHandler, index, cardid, email}:props) => {
+const CartItem = ({title, price, last, CheckHandler, index, cardid, email}:props) => {
 
-  const clickhandler = function () {
-    CheckHandler(parseFloat(price), index, cardid, false);
-  }   
+  const [isPending, startTransition] = useTransition();
+
+  const clickhandler = function (mybool:boolean, e?: React.FormEvent<HTMLFormElement>) {
+
+    e?.preventDefault();
+    e?.stopPropagation();
+
+    CheckHandler(parseFloat(price), index, cardid, mybool);
+
+    ActionHandler('#deleteitemform', DeleteCartItemAction, startTransition);
+
+  }
+
 
   return (
     <>
+
+      {isPending && <LoadingAction/>}
+
       <div className='h-32 flex items-center justify-between px-2'>
 
         <div className='flex gap-4 items-center overflow-hidden'>
 
-          <input defaultChecked={true} type="checkbox" name="cart-checkbox" id="checkbox" onClick={() => clickhandler()}/>
+          <input defaultChecked={true} type="checkbox" name="cart-checkbox" id="checkbox" onClick={() => clickhandler(false)}/>
 
           <Image className='hidden sm:inline-block' src='/images/blank.png' alt='nft' width={120} height={120}/>
 
@@ -40,7 +55,7 @@ const CartItem = ({title, price, image, last, CheckHandler, index, cardid, email
 
         </div>
 
-        <form action={DeleteCartItemAction} onSubmit={() => CheckHandler(parseFloat(price), index, cardid, true)}>
+        <form id='deleteitemform' onSubmit={(e) => clickhandler(true, e)}>
 
           <input type="text" name='userid' id='userid' hidden defaultValue={email}/>
           <input type="text" name='cardid' id='cardid' hidden defaultValue={cardid}/>

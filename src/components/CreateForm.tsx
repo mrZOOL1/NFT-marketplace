@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from 'react'
+import React, {useState, useTransition} from 'react'
 import { CreateCardAction } from '@/lib/actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -14,6 +14,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { TooManyDecimals } from '@/lib/utils';
+import { ActionHandler } from '@/lib/utils';
+import LoadingAction from './LoadingAction';
 
 
 interface props {
@@ -22,13 +24,17 @@ interface props {
   cardtitles: string[];
 }
 
-const CreateForm = ({email, name, cardtitles}:props) => {
+const myCreateForm = ({email, name, cardtitles}:props) => {
     const [Correct, SetCorrect] = useState(true);
     const [DifferentName, SetDifferentName] = useState(true);
     const [Range, SetRange] = useState(true);
     const [Decimal, SetDecimal] = useState(true);
+    const [isPending, startTransition] = useTransition();
 
-    const showlabel = function () {
+    const create = function (e: React.FormEvent<HTMLFormElement>) {
+
+      e.preventDefault();
+      e.stopPropagation();
 
       SetCorrect(true);
       SetDifferentName(true);
@@ -37,11 +43,10 @@ const CreateForm = ({email, name, cardtitles}:props) => {
   
       const title = document.querySelector('input[name="title"]') as HTMLInputElement;
       const price = document.querySelector('input[name="price"]') as HTMLInputElement;
-      const image = document.querySelector('input[name="image"]') as HTMLInputElement;
   
       let allgood = true;
 
-      if (title.value.length === 0  || price.value.length === 0 || image.files?.length === 0) {
+      if (title.value.length === 0  || price.value.length === 0) {
         SetCorrect(false);
         allgood = false;
       }
@@ -68,54 +73,55 @@ const CreateForm = ({email, name, cardtitles}:props) => {
         SetDecimal(true);
       }
 
+      ActionHandler('#mycreateform', CreateCardAction, startTransition);
+
     }
 
   return (
-    <Card className="w-[min(350px,90%)]">
+    <>
+      {isPending && <LoadingAction/>}
 
-    <CardHeader>
-      <CardTitle>Create NFT</CardTitle>
-      <CardDescription>Create your own NFT and put it up for sale</CardDescription>
-    </CardHeader>
+      <Card className="w-[min(350px,90%)]">
 
-    <CardContent>
-        <form action={CreateCardAction} onSubmit={showlabel} id='createform' noValidate>
-          <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col gap-3">
+      <CardHeader>
+        <CardTitle>Create NFT</CardTitle>
+        <CardDescription>Create your own NFT and put it up for sale</CardDescription>
+      </CardHeader>
 
-                <input id="userid" name='userid' autoComplete="off" hidden defaultValue={email}/>
-                <input id="owner" name='owner' autoComplete="off" hidden defaultValue={name || 'no name'}/>
+      <CardContent>
+          <form onSubmit={(e) => create(e)} id='mycreateform' name='mycreateform' noValidate>
+            <div className="grid w-full items-center gap-4">
+                <div className="flex flex-col gap-3">
 
-                <div className='gap-1'>
-                  <Label htmlFor="title">Title</Label>
-                  <Input className='bg-accent' id="title" name='title' autoComplete="off"/>
+                  <input id="userid" name='userid' autoComplete="off" hidden defaultValue={email}/>
+                  <input id="owner" name='owner' autoComplete="off" hidden defaultValue={name || 'no name'}/>
+
+                  <div className='gap-1'>
+                    <Label htmlFor="title">Title</Label>
+                    <Input className='bg-accent' id="title" name='title' autoComplete="off"/>
+                  </div>
+
+                  <div className='gap-1'>
+                    <Label htmlFor="price">Price (ETH)</Label>
+                    <Input className='bg-accent' id="price" name='price' type='number' autoComplete="off"/>
+                  </div>
+
                 </div>
+            </div>
+          </form>
+      </CardContent>
 
-                <div className='gap-1'>
-                  <Label htmlFor="price">Price (ETH)</Label>
-                  <Input className='bg-accent' id="price" name='price' type='number' autoComplete="off"/>
-                </div>
+      <CardFooter className="flex flex-col items-center justify-center">
+        <Button type='submit' form='mycreateform' >Create</Button>
+        <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Correct ? 'none' : ''}}>All fields are required</p>
+        <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Price must be between 0.01 and 9999</p>
+        <p className='text-red-500 font-semibold mt-4 text-center' style={{display: DifferentName ? 'none' : ''}}>You already use this title</p>
+        <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Decimal ? 'none' : ''}}>Maximum 2 decimal digits</p>
+      </CardFooter>
 
-                <div className='gap-1'>
-                  <Label htmlFor="image">Image</Label>
-                  <Input className='bg-accent' id="image" name='image' type="file" accept="image/png, image/jpg, image/jpeg"/>
-                </div>
-
-              </div>
-          </div>
-        </form>
-    </CardContent>
-
-    <CardFooter className="flex flex-col items-center justify-center">
-      <Button type='submit' form='createform' >Create</Button>
-      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Correct ? 'none' : ''}}>All fields are required</p>
-      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Price must be between 0.01 and 9999</p>
-      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: DifferentName ? 'none' : ''}}>You already use this title</p>
-      <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Decimal ? 'none' : ''}}>Maximum 2 decimal digits</p>
-    </CardFooter>
-
-    </Card>
+      </Card>
+    </>
   )
 }
 
-export default CreateForm
+export default myCreateForm

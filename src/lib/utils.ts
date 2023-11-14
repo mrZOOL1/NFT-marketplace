@@ -22,3 +22,27 @@ export const TooManyDecimals = function (text: string): boolean {
     return false;
   }
 }
+
+export const ActionHandler = function (FormSelector: string, action: (FormData: FormData) => Promise<void>, mystartTransition: any): void {
+
+  const form = document.querySelector(FormSelector) as HTMLFormElement;
+  const allinputs = form.querySelectorAll('input');
+  const formData = new FormData();
+  for (let i = 0; i < allinputs.length; i++) {
+    const input = allinputs[i];
+    const name = input.name;
+    const value = input.value;
+    formData.append(name, value);
+  }
+
+  mystartTransition(async () => {
+
+    try {
+      await action(formData);
+    } catch (error) {
+      console.error(error);
+    }
+
+  });
+
+}

@@ -12,16 +12,14 @@ export async function CreateCardAction(FormData: FormData) {
     const userid = FormData.get('userid') as string;
     const owner = FormData.get('owner') as string;
     const title = FormData.get('title') as string;
-    const image = FormData.get('image') as File | null;
     const price = FormData.get('price') as string;
     const decimalprice = new Decimal(parseFloat(price));
 
     const mycards = await FilterCardsByUserId(userid);
     const cardtitles = mycards.map(card => card.title);
 
-    const IsImage = image?.type === ('image/png' || 'image/jpg' || 'image/jpeg')
-    if (!TooManyDecimals(price) && title !== '' && price !== '' && IsImage && !cardtitles.includes(title) && decimalprice.lessThanOrEqualTo(9999) && decimalprice.greaterThanOrEqualTo(0.01)) {
-        await CreateCard(id, userid, owner, title, price, image);
+    if (!TooManyDecimals(price) && title !== '' && price !== '' && !cardtitles.includes(title) && decimalprice.lessThanOrEqualTo(9999) && decimalprice.greaterThanOrEqualTo(0.01)) {
+        await CreateCard(id, userid, owner, title, price);
         await revalidatePath('/profile/nfts');
         await redirect('/profile/nfts');
     }

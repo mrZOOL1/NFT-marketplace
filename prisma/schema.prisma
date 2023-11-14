@@ -13,7 +13,6 @@ model Cards {
   userid String
   title  String
   price  String
-  image  String
   owner  String
 }
 

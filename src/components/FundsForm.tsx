@@ -21,7 +21,7 @@ interface props {
   funds: string | undefined;
 }
 
-const CreateForm = ({email, funds}:props) => {
+const FundsForm = ({email, funds}:props) => {
 
   const [Range, SetRange] = useState(true);
   const [DecimalOK, SetDecimalOK] = useState(true);
@@ -65,7 +65,7 @@ const CreateForm = ({email, funds}:props) => {
     </CardHeader>
 
     <CardContent>
-      <form action={AddFundsAction} onSubmit={showlabel} id='createform' noValidate>
+      <form action={AddFundsAction} onSubmit={showlabel} id='editform' noValidate>
         <div className="grid w-full items-center gap-4">
             <div className="flex flex-col gap-3">
 
@@ -82,7 +82,7 @@ const CreateForm = ({email, funds}:props) => {
     </CardContent>
 
     <CardFooter className="flex flex-col items-center justify-center">
-      <Button type='submit' form='createform' >Add Funds</Button>
+      <Button type='submit' form='editform' >Add Funds</Button>
       <p className='text-red-500 font-semibold mt-4 text-center' style={{display: Range ? 'none' : ''}}>Amount must be between 0.01 and 1000</p>
       <p className='text-red-500 font-semibold mt-4 text-center' style={{display: DecimalOK ? 'none' : ''}}>Maximum 2 decimal digits</p>
     </CardFooter>
@@ -91,4 +91,4 @@ const CreateForm = ({email, funds}:props) => {
   )
 }
 
-export default CreateForm
+export default FundsForm

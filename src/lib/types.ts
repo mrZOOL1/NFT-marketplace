@@ -3,7 +3,6 @@ export type Card_Type = {
     userid: string;
     title: string;
     price: string;
-    image: string;
     owner: string;
     email?: string;
 }
