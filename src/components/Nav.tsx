@@ -22,7 +22,7 @@ const Nav = async () => {
   const cartnum = await CountCartItems((session && session.user?.email) ? session.user.email : 'Unknown');
 
   return (
-    <nav className='sticky top-0 flex items-center w-full justify-between p-4 glow bg-background z-50'>
+    <nav className='h-[5rem] sticky top-0 flex items-center w-full justify-between p-4 glow bg-background z-50'>
 
       <div className='flex items-center gap-2'>
         <Link href='/'>
