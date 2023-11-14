@@ -164,6 +164,7 @@ export async function BuyOne(FormData: FormData) {
             const money = Decimal.sub(parseFloat(funds), parseFloat(price))
             await BuyCard(cardid, email, owner);
             await DecreaseFunds(email, money.toString());
+            await RemoveItemFromCart(email, cardid);
             await revalidatePath(`/${cardid}`);
 
         }
