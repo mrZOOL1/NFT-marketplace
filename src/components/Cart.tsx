@@ -193,7 +193,7 @@ const Cart = ({allcards, email, name, funds}:props) => {
             </div>
 
             <div className='flex flex-col bg-accent rounded-[0.5rem] w-full p-2 shadow2' style={{display: allcards.length===0 ? 'none' : 'inline-block'}}>
-                {allcards.map((card:Card_Type, index:number) => <CartItem last={allcards.length} index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} image={card.image} cardid={card.id} email={email}/>)}
+                {allcards.map((card:Card_Type, index:number) => <CartItem last={allcards.length} index={index} CheckHandler={CheckHandler} key={card.id} title={card.title} price={card.price} cardid={card.id} email={email}/>)}
             </div>
 
             <form className='bg-accent rounded-[0.5rem] h-min gap-2 w-full flex flex-col items-start justify-between p-2 sm:hidden shadow2' onSubmit={(e) => buy(e)}>

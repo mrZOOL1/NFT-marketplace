@@ -11,7 +11,6 @@ import LoadingAction from './LoadingAction';
 interface props {
   title: string;
   price: string;
-  image: string;
   index: number;
   last: number;
   cardid: string;
